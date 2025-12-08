@@ -1,0 +1,7 @@
+# Core dependencies for taxonomy graph
+numpy>=1.24.0
+networkx>=3.0
+sentence-transformers>=2.2.0
+
+# For running the experiment
+torch>=2.0.0  # Required by sentence-transformers
