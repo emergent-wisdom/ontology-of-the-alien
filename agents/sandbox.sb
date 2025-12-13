@@ -1,0 +1,31 @@
+(version 1)
+(allow default)
+
+; Deny write access to home directory
+(deny file-write*
+    (subpath (param "HOME"))
+)
+
+; Allow write access to experiment directory
+(allow file-write*
+    (subpath (param "PROJECT_DIR"))
+)
+
+; Allow write access to Claude's config directory
+(allow file-write*
+    (subpath (string-append (param "HOME") "/.claude"))
+)
+
+; Allow write access to Claude's config file
+(allow file-write*
+    (literal (string-append (param "HOME") "/.claude.json"))
+)
+
+; Allow read access everywhere (for Python, libraries, etc)
+(allow file-read*)
+
+; Allow network (needed for Claude API)
+(allow network*)
+
+; Allow process operations
+(allow process*)
