@@ -1,0 +1,24 @@
+# Don't copy these into the Docker image
+.git
+__pycache__
+*.pyc
+*.pyo
+.pytest_cache
+.mypy_cache
+
+# Large model files (will be downloaded fresh)
+*.pt
+*.bin
+*.safetensors
+
+# Existing data (will be mounted as volumes)
+taxonomy/
+agents/logs/
+
+# IDE
+.vscode
+.idea
+*.swp
+
+# macOS
+.DS_Store
