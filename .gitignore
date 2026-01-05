@@ -13,3 +13,4 @@ worlds/
 # Agent logs (too large, contain verbose traces)
 agents/logs/
 agents/.*.tmp
+.DS_Store
