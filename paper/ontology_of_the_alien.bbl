@@ -1,0 +1,148 @@
+\begin{thebibliography}{10}
+
+\bibitem{doshi2024}
+Anil Doshi and Oliver Hauser.
+\newblock Generative ai enhances individual creativity but reduces the
+  collective diversity of novel content.
+\newblock {\em Science Advances}, 10(28), 2024.
+
+\bibitem{haase2025}
+Jennifer Haase, Paul H.~P. Hanel, and Sebastian Pokutta.
+\newblock Has the creativity of large-language models peaked? {An} analysis of
+  inter- and intra-{LLM} variability.
+\newblock {\em Journal of Creativity}, 35:100113, 2025.
+
+\bibitem{zhang2025noveltybench}
+Yiming Zhang, Harshita Diddee, Susan Holm, Hanchen Liu, Xinyue Liu, Vinay
+  Samuel, Barry Wang, and Daphne Ippolito.
+\newblock {NoveltyBench}: Evaluating language models for humanlike diversity.
+\newblock {\em arXiv preprint arXiv:2504.05228}, 2025.
+
+\bibitem{wright2025}
+Dustin Wright, Sarah Masud, Jared Moore, Srishti Yadav, Maria Antoniak,
+  Peter~Ebert Christensen, Chan~Young Park, and Isabelle Augenstein.
+\newblock Epistemic diversity and knowledge collapse in large language models.
+\newblock {\em arXiv preprint arXiv:2510.04226}, 2025.
+
+\bibitem{westerberg2025strangeworlds}
+Henrik Westerberg.
+\newblock Algorithmic creativity via strange worlds: A multi-agent toolkit for
+  escaping the median trap.
+\newblock Zenodo, 2025.
+
+\bibitem{lu2025}
+Yining Lu, Dixuan Wang, Tianjian Li, Dongwei Jiang, Sanjeev Khudanpur, Meng
+  Jiang, and Daniel Khashabi.
+\newblock Benchmarking language model creativity: A case study on code
+  generation.
+\newblock In {\em NAACL}, 2025.
+
+\bibitem{debono1970}
+Edward de~Bono.
+\newblock {\em Lateral Thinking: Creativity Step by Step}.
+\newblock Harper \& Row, 1970.
+
+\bibitem{deepmind2024}
+Michihiro Yasunaga, Xinyun Chen, et~al.
+\newblock Large language models as analogical reasoners.
+\newblock In {\em ICLR}, 2024.
+
+\bibitem{gordon1961}
+William Gordon.
+\newblock {\em Synectics: The Development of Creative Capacity}.
+\newblock Harper \& Row, 1961.
+
+\bibitem{taleb2012}
+Nassim~Nicholas Taleb.
+\newblock {\em Antifragile: Things That Gain from Disorder}.
+\newblock Random House, 2012.
+
+\bibitem{eno1975}
+Brian Eno and Peter Schmidt.
+\newblock Oblique strategies: Over one hundred worthwhile dilemmas.
+\newblock Self-published, 1975.
+
+\bibitem{dunne2013}
+Anthony Dunne and Fiona Raby.
+\newblock {\em Speculative Everything: Design, Fiction, and Social Dreaming}.
+\newblock MIT Press, 2013.
+
+\bibitem{gentner1983}
+Dedre Gentner.
+\newblock Structure-mapping: A theoretical framework for analogy.
+\newblock {\em Cognitive Science}, 7(2):155--170, 1983.
+
+\bibitem{liang2024}
+Tian Liang, Zhiwei He, Wenxiang Jiao, Xing Wang, Yan Wang, Rui Wang, Yujiu
+  Yang, Shuming Shi, and Zhaopeng Tu.
+\newblock Encouraging divergent thinking in large language models through
+  multi-agent debate.
+\newblock In {\em EMNLP}, 2024.
+
+\bibitem{du2024}
+Yilun Du, Shuang Li, Antonio Torralba, Joshua~B. Tenenbaum, and Igor Mordatch.
+\newblock Improving factuality and reasoning in language models through
+  multiagent debate.
+\newblock In {\em ICML}, 2024.
+
+\bibitem{zhang2025verbalized}
+Jiayi Zhang, Simon Yu, Derek Chong, Anthony Sicilia, Michael~R. Tomz,
+  Christopher~D. Manning, and Weiyan Shi.
+\newblock Verbalized sampling: How to mitigate mode collapse and unlock {LLM}
+  diversity.
+\newblock {\em arXiv preprint arXiv:2510.01171}, 2025.
+
+\bibitem{zwicky1969}
+Fritz Zwicky.
+\newblock {\em Discovery, Invention, Research Through the Morphological
+  Approach}.
+\newblock Macmillan, 1969.
+
+\bibitem{sumers2024}
+Theodore~R. Sumers, Shunyu Yao, Karthik Narasimhan, and Thomas~L. Griffiths.
+\newblock Cognitive architectures for language agents.
+\newblock {\em Transactions on Machine Learning Research}, 2024.
+
+\bibitem{madaan2023}
+Aman Madaan, Niket Tandon, Prakhar Gupta, Skyler Hallinan, Luyu Gao, Sarah
+  Wiegreffe, Uri Alon, Nouha Dziri, Shrimai Prabhumoye, Yiming Yang, et~al.
+\newblock Self-refine: Iterative refinement with self-feedback.
+\newblock In {\em NeurIPS}, 2023.
+
+\bibitem{liu2025dmad}
+Yexiang Liu, Jie Cao, Zekun Li, Ran He, and Tieniu Tan.
+\newblock Breaking mental set to improve reasoning through diverse multi-agent
+  debate.
+\newblock In {\em ICLR}, 2025.
+
+\bibitem{holtzman2020}
+Ari Holtzman, Jan Buys, Li~Du, Maxwell Forbes, and Yejin Choi.
+\newblock The curious case of neural text degeneration.
+\newblock In {\em ICLR}, 2020.
+
+\bibitem{vijayakumar2018}
+Ashwin~K Vijayakumar, Michael Cogswell, Ramprasaath~R Selvaraju, Qing Sun,
+  Stefan Lee, David Crandall, and Dhruv Batra.
+\newblock Diverse beam search: Decoding diverse solutions from neural sequence
+  models.
+\newblock In {\em AAAI}, 2018.
+
+\bibitem{wang2023}
+Xuezhi Wang, Jason Wei, Dale Schuurmans, Quoc Le, Ed~Chi, Sharan Narang,
+  Aakanksha Chowdhery, and Denny Zhou.
+\newblock Self-consistency improves chain of thought reasoning in language
+  models.
+\newblock In {\em ICLR}, 2023.
+
+\bibitem{sourati2025}
+Zhivar Sourati, Alireza~S. Ziabari, and Morteza Dehghani.
+\newblock The homogenizing effect of large language models on human expression
+  and thought.
+\newblock {\em arXiv preprint arXiv:2508.01491}, 2025.
+
+\bibitem{kahneman2011}
+Daniel Kahneman.
+\newblock {\em Thinking, Fast and Slow}.
+\newblock Farrar, Straus and Giroux, 2011.
+
+\end{thebibliography}

@@ -1,62 +1,76 @@
-# The Ontology of the Alien: Escaping the Median Trap
+# The Ontology of the Alien: Escaping the Median Trap in LLM Ideation
 
-This repository contains the code and data for the experiment **"The Ontology of the Alien: Escaping the Median Trap via Adversarial Ontology Building and Isomorphic Translation"**.
+**Paper:** [`paper/ontology_of_the_alien.pdf`](paper/ontology_of_the_alien.pdf)
 
-## Overview
+Large Language Models asked to "be creative" produce solutions that converge on a small number of archetypes — the **Median Trap**. This repository contains the experiment code and full dataset (196 solutions across 8 conditions) for a systematic comparison of methods that escape it.
 
-Large Language Models asked to "be creative" tend to produce solutions that converge on a small number of archetypes—the **Median Trap**. This project systematically compares eight methods for inducing structural diversity in LLM-generated solutions, demonstrating that adversarial topology and world-building can induce emergent metacognition and genuine novelty.
+We test three novel architectures against baselines:
+- **Semantic Tabu** — accumulating constraints that block previously used mechanisms
+- **Solution Taxonomy (Studio Model)** — a dual-agent system where an Explorer proposes and a Taxonomist curates an evolving ontology graph
+- **Orthogonal Insight Protocol** — constructing coherent alternative physics, solving the problem within them, and extracting mechanisms back to reality
 
-The experiment focuses on a single hard problem:
+> **Prior work:** This paper extends [Algorithmic Creativity via Strange Worlds](https://doi.org/10.5281/zenodo.17905401) (Westerberg, 2025), which introduced the Orthogonal Insight Protocol and tested it against a single baseline.
+
+## The Problem
+
+All eight conditions tackle the same hard problem:
+
 > "How do we build a retirement system for people who don't know how much they will earn next month, where 'consistency' is impossible?"
 
 ## Conditions
 
-We implemented and compared eight experimental conditions, organized by inspiration source and novelty enforcement mechanism:
+| Condition | Inspiration | Novelty Mechanism |
+|-----------|-------------|-------------------|
+| A: Semantic Tabu | None | Tabu list |
+| B: Solution Taxonomy | None | Graph |
+| C: Random Seed | Seed word | None |
+| D: Seed + Tabu | Seed word | Tabu list |
+| E: Seed + Taxonomy | Seed word | Graph |
+| F: Orthogonal | Alien physics | None |
+| G: Orthogonal + Tabu | Alien physics | Tabu list |
+| H: Orthogonal + Taxonomy | Alien physics | Graph |
 
-| Condition | Inspiration | Novelty Mechanism | Description |
-|-----------|-------------|-------------------|-------------|
-| **A: Semantic Tabu** | None | Tabu List | Maintains an accumulating list of mechanism-level features to avoid. |
-| **B: Solution Taxonomy** | None | Graph | Uses graph-based novelty enforcement where solutions must fill gaps in an evolving ontology. |
-| **C: Random Seed** | Seed Word | None | Operationalizes de Bono's lateral thinking (Random Entry). |
-| **D: Seed + Tabu** | Seed Word | Tabu List | Combines seed inspiration with mechanism avoidance. |
-| **E: Seed + Taxonomy** | Seed Word | Graph | Combines seed inspiration with graph-based novelty enforcement. |
-| **F: Strange Worlds** | Alien Physics | None | Constructs coherent alternative physics, solves the problem there, then extracts the mechanism. |
-| **G: Worlds + Tabu** | Alien Physics | Tabu List | Adds mechanism avoidance to the extraction phase. |
-| **H: Worlds + Taxonomy** | Alien Physics | Graph | Adds graph-based novelty enforcement to the extraction phase. |
+25 runs per condition. Conditions B and H had 23 solutions accepted into their taxonomy graphs (2 rejected each as structurally redundant), yielding 196 distinct solutions.
 
-## The Studio Model
+## Key Findings
 
-For the taxonomy conditions (B, E, H), we utilized a dual-agent **"Studio Model"** architecture:
-
-1.  **The Explorer (Ephemeral):** Spawns fresh for each run. Goal: Pure novelty. Proposes solutions.
-2.  **The Taxonomist (Persistent):** Maintains the long-term ontology graph. Goal: Coherence. Can Accept, Reject, or Restructure the graph.
-
-This architecture demonstrated emergent behaviors such as **Active Commissioning** (requesting specific research), **Structural Coaching** (teaching the difference between surface and deep novelty), and **Ontological Accommodation** (restructuring categories to fit new concepts).
+- The **Studio Model** (Conditions B, E, H) exhibited emergent metacognition: active commissioning of research, structural coaching, and ontological accommodation (restructuring categories when data defied classification).
+- The system independently derived advanced economic concepts including **antifragility**, **metric dissolution**, and **flow rights** as alternatives to accumulation.
+- Different architectures produce different **solution space topologies**: Tabu forces vertical depth, Seeds create lateral branching, and Orthogonal Insight extracts epistemological stances.
 
 ## Repository Structure
 
-- **`src/`**: Core logic for the taxonomy graph, embedding service, and prompt generation.
-- **`agents/`**: Agent definitions (`explorer.md`, `taxonomist.md`) and orchestration scripts.
-- **`run_experiment.py`**: Main entry point for running the experiment.
-- **`analysis/`**: Scripts for analyzing the resulting solution graphs.
-- **Data Directories:**
-    - `semantic_tabu/`: Condition A results
-    - `taxonomy/`: Condition B results
-    - `random_seed/`: Condition C results
-    - `seed_tabu/`: Condition D results
-    - `taxonomy_seed/`: Condition E results
-    - `strange_worlds/`: Condition F results
-    - `strange_worlds_tabu/`: Condition G results
-    - `taxonomy_worlds/`: Condition H results
-    - `worlds/`: Intermediate world-building outputs
+```
+paper/                  LaTeX source and compiled PDF
+src/taxonomy_graph/     Graph data structure and embedding service
+agents/                 Agent prompts (explorer.md, taxonomist.md) and orchestration
+run_experiment.py       Main entry point
+analysis/               Result analysis scripts
+seeds.json              25 seed words used for Conditions C-H
+schema.json             Solution output schema
+```
+
+**Data directories** (25 JSON files each):
+
+| Directory | Condition |
+|-----------|-----------|
+| `semantic_tabu/` | A |
+| `taxonomy/` | B |
+| `random_seed/` | C |
+| `seed_tabu/` | D |
+| `taxonomy_seed/` | E |
+| `strange_worlds/` | F |
+| `strange_worlds_tabu/` | G |
+| `taxonomy_worlds/` | H |
+
+Each JSON file contains the full agent output (world-building text, solver reasoning, extracted solution) for reproducibility.
 
 ## Usage
 
-The system is designed to run with **Claude Opus 4.5**.
-
-To run the experiment, use the `run_experiment.py` script. (Ensure you have the necessary API keys configured).
+Requires **Claude Opus 4.5** and a valid Anthropic API key.
 
 ```bash
+pip install -r requirements.txt
 python run_experiment.py --condition [A-H]
 ```
 
