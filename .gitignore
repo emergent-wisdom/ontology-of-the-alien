@@ -7,9 +7,6 @@ __pycache__/
 run_combined_*.py
 run_missing*.py
 
-# Intermediate data (worlds can be regenerated)
-worlds/
-
 # Agent logs (too large, contain verbose traces)
 agents/logs/
 agents/.*.tmp

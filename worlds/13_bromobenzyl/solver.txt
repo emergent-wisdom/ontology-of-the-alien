@@ -1,0 +1,152 @@
+# The Resonance Retirement System
+
+## The Core Insight
+
+In Bromobenzyl, "saving for retirement" is a contradiction—resonance prevents accumulation. But retirement isn't about *having accumulated things*. It's about **occupying a ring position where you receive more than you release**.
+
+The problem reframes: How does someone with variable leaving capacity ensure they'll have a stable ring position when their productive departures slow?
+
+---
+
+## The Solution: Time-Shifted Retirement Hexagons
+
+### Structure
+
+Create **Retirement Hexagons** that span generations by design:
+
+```
+        [Elder 1]
+       /         \
+[Provider A]   [Elder 2]
+      |           |
+[Provider B]   [Provider C]
+       \         /
+        [Broker]
+```
+
+- **3 Provider Nodes**: Working-age members with leaving capacity
+- **2 Elder Nodes**: Retired members who receive through resonance
+- **1 Broker Node**: Manages substitutions, transitions, ring health
+
+Within this ring, essence flows continuously. Elders receive *because providers release*, not because elders previously accumulated. This is **intergenerational substitution**—the fundamental transaction made permanent.
+
+---
+
+## How Variable Income Works Within This
+
+### 1. Contribution as Leaving-Readiness, Not Fixed Amount
+
+Providers don't contribute set amounts. They maintain **prepared leaving tokens**—things ready to depart when needed:
+
+- In abundant months: more tokens prepared, more flowing through ring
+- In lean months: fewer tokens, but ring resonance buffers the shortfall
+- Other providers' abundance covers individual scarcity
+
+The ring cares about *average leaving capacity across all providers*, not individual consistency. Six connected nodes have inherent stability even when individual nodes fluctuate.
+
+### 2. The Ripening Registry
+
+Workers register leaving tokens with the **Ring's Broker** throughout their working years. These tokens don't accumulate—they **ripen**.
+
+A leaving token registered young might be:
+- Raw labor promise
+- Skill potential
+- Future time-commitment
+
+Over years, these ripen into *high-quality leaving groups*:
+- Mature expertise ready to transfer
+- Seasoned judgment prepared to depart to apprentices
+- Refined techniques awaiting clean substitution
+
+**Quality of departure matters more than quantity.** A variable-income worker who registered few tokens but ripened them well provides cleaner departures than one who registered many but neglected them.
+
+### 3. The Floating Broker Path
+
+For the most variable workers—those who cannot anchor reliably in any single ring—the system offers the **Floating Broker role**.
+
+Instead of occupying a fixed provider position, they move between rings, facilitating substitutions:
+- When they have abundance, they broker larger exchanges across multiple hexagons
+- When scarce, they step back, letting other brokers lead
+- Each ring they serve owes them **resonance-debt**—not accumulated wealth, but a *claim on future ring-position*
+
+A Floating Broker who served twelve hexagons over forty years may have modest ripened tokens but holds *twelve ring-claims*. At retirement, they can call one in—entering an elder position in whichever ring has an opening.
+
+---
+
+## The Transition Moment: Retirement as Mass Departure
+
+Retirement isn't gradual drawdown. It's a **carbocation event**.
+
+When a worker moves from Provider to Elder position:
+
+1. **Mass Departure**: All ripened leaving tokens release simultaneously—skills transfer to apprentices, accumulated wisdom departs to students, physical labor capacity leaves entirely
+
+2. **The Open Moment**: A brief carbocation state where the worker is highly vulnerable, highly reactive
+
+3. **New Bonding**: Into this open position rushes:
+   - Elder ring-position (receiving node, not giving node)
+   - Resonance claims maturing into actual flow
+   - The distributed essence of their new hexagon
+
+The quality of this transition depends entirely on **how well departures were prepared**—not how many, not how consistent, but how *clean*.
+
+---
+
+## Why Variable Income Doesn't Break This
+
+| Traditional Problem | Bromobenzyl Solution |
+|---|---|
+| "Can't save consistent amounts" | Ring resonance buffers individual variation |
+| "Don't know future income" | Position in ring matters, not personal balance |
+| "Gaps in contribution history" | Quality of prepared departures outweighs quantity |
+| "No accumulated fund" | Fund was never the point—ring-position was |
+
+The variable-income worker's path:
+
+1. **Join a Retirement Hexagon early**—even minimal leaving capacity creates ring membership
+2. **Prepare tokens when able, let ring buffer when not**—other providers cover shortfalls
+3. **Focus on ripening quality**—a few well-prepared departures outvalue many hasty ones
+4. **Build ring-claims through service**—broker work, helping others transition, creates future position-rights
+5. **Execute clean mass departure when ready**—transition to elder node with whatever tokens ripened
+
+---
+
+## The Meta-Ring Buffer
+
+Individual hexagons nest into **District Rings**—six retirement hexagons resonating together.
+
+If one hexagon suffers (all providers having lean years simultaneously), the district ring distributes support. If a district struggles, the **City Meta-Ring** buffers further.
+
+This fractal structure means: **no individual's variability can destabilize their retirement**, because variability is absorbed at successively larger scales until it disappears into statistical noise.
+
+---
+
+## The Broker's Ledger: What Actually Gets Tracked
+
+Not money. Not contribution history. The Ring Broker maintains:
+
+- **Leaving Readiness**: What each provider has prepared for departure
+- **Ripening Status**: How mature each token has become  
+- **Ring-Claims Owed**: What resonance-debt is owed to Floating Brokers
+- **Position Queue**: Who's next for elder transition when a node opens
+- **Departure Quality History**: How cleanly past members transitioned (affects ring reputation)
+
+When someone asks "Am I ready for retirement?", the Broker doesn't calculate a balance. They assess: *Are your departures ripened? Is an elder position opening? Will your mass departure be clean enough to honor this ring?*
+
+---
+
+## The Beautiful Paradox
+
+In Bromobenzyl, the worker who never knew what they'd earn next month is perhaps *better* suited for retirement than the consistent earner.
+
+Why? They learned to:
+- Prepare departures opportunistically, not rigidly
+- Value ring-connection over personal accumulation  
+- Move fluidly between positions as capacity shifted
+- Trust resonance to buffer what individual effort couldn't guarantee
+
+The consistent earner may have more ripened tokens—but the variable earner has **more ring-claims, more broker relationships, more practiced flexibility**.
+
+When the carbocation moment comes, both can transition. One departs with quantity. The other departs with *connections*.
+
+In a world where essence flows through rings, connections may be the truer wealth.
