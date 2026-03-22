@@ -75,6 +75,10 @@ pip install -r requirements.txt
 python run_experiment.py --condition [A-H]
 ```
 
+## Try It
+
+The **Orthogonal Insight Engine** is available as a standalone open-source tool: [emergent-wisdom/orthogonal-insight-engine](https://github.com/emergent-wisdom/orthogonal-insight-engine)
+
 ## License
 
 MIT License
