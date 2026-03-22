@@ -1,6 +1,7 @@
 # The Ontology of the Alien: Escaping the Median Trap in LLM Ideation
 
-**Paper:** [`paper/ontology_of_the_alien.pdf`](paper/ontology_of_the_alien.pdf)
+[![Paper](https://img.shields.io/badge/Paper-PDF-red)](paper/ontology_of_the_alien.pdf)
+[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 Large Language Models asked to "be creative" produce solutions that converge on a small number of archetypes — the **Median Trap**. This repository contains the experiment code and full dataset (196 solutions across 8 conditions) for a systematic comparison of methods that escape it.
 
