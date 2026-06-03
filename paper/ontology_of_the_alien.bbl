@@ -10,7 +10,7 @@ Anil Doshi and Oliver Hauser.
 Jennifer Haase, Paul H.~P. Hanel, and Sebastian Pokutta.
 \newblock Has the creativity of large-language models peaked? {An} analysis of
   inter- and intra-{LLM} variability.
-\newblock {\em Journal of Creativity}, 35:100113, 2025.
+\newblock {\em Journal of Creativity}, 35(3):100113, 2025.
 
 \bibitem{zhang2025noveltybench}
 Yiming Zhang, Harshita Diddee, Susan Holm, Hanchen Liu, Xinyue Liu, Vinay
@@ -37,20 +37,16 @@ Yining Lu, Dixuan Wang, Tianjian Li, Dongwei Jiang, Sanjeev Khudanpur, Meng
   generation.
 \newblock In {\em NAACL}, 2025.
 
+\bibitem{westerberg2026fractal}
+Henrik Westerberg.
+\newblock Fractal intelligence: Conceptual decomposition as problem-solving
+  infrastructure.
+\newblock Zenodo, 2026.
+
 \bibitem{debono1970}
 Edward de~Bono.
 \newblock {\em Lateral Thinking: Creativity Step by Step}.
 \newblock Harper \& Row, 1970.
-
-\bibitem{deepmind2024}
-Michihiro Yasunaga, Xinyun Chen, et~al.
-\newblock Large language models as analogical reasoners.
-\newblock In {\em ICLR}, 2024.
-
-\bibitem{gordon1961}
-William Gordon.
-\newblock {\em Synectics: The Development of Creative Capacity}.
-\newblock Harper \& Row, 1961.
 
 \bibitem{taleb2012}
 Nassim~Nicholas Taleb.
@@ -62,10 +58,21 @@ Brian Eno and Peter Schmidt.
 \newblock Oblique strategies: Over one hundred worthwhile dilemmas.
 \newblock Self-published, 1975.
 
+\bibitem{gordon1961}
+William Gordon.
+\newblock {\em Synectics: The Development of Creative Capacity}.
+\newblock Harper \& Row, 1961.
+
 \bibitem{dunne2013}
 Anthony Dunne and Fiona Raby.
 \newblock {\em Speculative Everything: Design, Fiction, and Social Dreaming}.
 \newblock MIT Press, 2013.
+
+\bibitem{yasunaga2024analogical}
+Michihiro Yasunaga, Xinyun Chen, Yujia Li, Panupong Pasupat, Jure Leskovec,
+  Percy Liang, Ed~H. Chi, and Denny Zhou.
+\newblock Large language models as analogical reasoners.
+\newblock In {\em ICLR}, 2024.
 
 \bibitem{gentner1983}
 Dedre Gentner.
@@ -120,12 +127,12 @@ Ari Holtzman, Jan Buys, Li~Du, Maxwell Forbes, and Yejin Choi.
 \newblock The curious case of neural text degeneration.
 \newblock In {\em ICLR}, 2020.
 
-\bibitem{vijayakumar2018}
-Ashwin~K Vijayakumar, Michael Cogswell, Ramprasaath~R Selvaraju, Qing Sun,
+\bibitem{vijayakumar2016}
+Ashwin~K. Vijayakumar, Michael Cogswell, Ramprasaath~R. Selvaraju, Qing Sun,
   Stefan Lee, David Crandall, and Dhruv Batra.
 \newblock Diverse beam search: Decoding diverse solutions from neural sequence
   models.
-\newblock In {\em AAAI}, 2018.
+\newblock arXiv:1610.02424, 2016.
 
 \bibitem{wang2023}
 Xuezhi Wang, Jason Wei, Dale Schuurmans, Quoc Le, Ed~Chi, Sharan Narang,
