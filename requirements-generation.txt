@@ -1,0 +1,6 @@
+# Historical generation dependency. The exact version used for the released
+# experiment was not archived, so this file intentionally does not claim an
+# exact environment reconstruction. External CLI and macOS requirements are
+# documented in README.md.
+-r requirements.txt
+claude-code-sdk

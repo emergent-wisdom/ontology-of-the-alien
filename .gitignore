@@ -1,5 +1,6 @@
 # Python
 venv/
+.venv/
 __pycache__/
 *.pyc
 
@@ -11,3 +12,7 @@ run_missing*.py
 agents/logs/
 agents/.*.tmp
 .DS_Store
+
+# Local analysis and release staging
+tmp/
+dist/

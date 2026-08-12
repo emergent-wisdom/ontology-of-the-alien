@@ -1,182 +1,133 @@
 #!/usr/bin/env python3
-"""
-Comprehensive analysis of Strange Worlds experiment results.
-Generates tables and statistics for the paper.
+"""Audit the released result corpus without running a model.
+
+The taxonomy databases are canonical for B, E, and H because asynchronous
+capture left one accepted B solution out of the top-level run JSON.  This
+script reports planned slots, canonical records, non-empty top-level solutions,
+strictly parseable run files, and exact-string uniqueness.  It deliberately
+does not infer creativity, quality, or a transfer type from condition labels.
 """
 
 import json
+import re
+import sqlite3
 from pathlib import Path
-from collections import defaultdict
 
-BASE_DIR = Path(__file__).parent.parent
 
-CONDITIONS = {
-    "semantic_tabu": ("tabu_*.json", "A"),
-    "strange_worlds": ("worlds_*.json", "B"),
-    "strange_worlds_tabu": ("worlds_tabu_*.json", "C"),
-    "random_seed": ("seed_*.json", "D"),
-    "seed_tabu": ("seed_tabu_*.json", "E"),
-}
-
-SEEDS = [
-    "limelike", "unwilted", "cinerator", "nephropyosis", "fimbrillate",
-    "coralline", "unimpatient", "pilaued", "displacement", "theatrical",
-    "palouser", "critique", "bromobenzyl", "gnomically", "remilitarize",
-    "arcual", "whizgig", "entempest", "chalaco", "paranucleic",
-    "phraseman", "desperacy", "pidan", "phosis", "theca"
+BASE = Path(__file__).resolve().parent.parent
+CONDITIONS = [
+    ("A", "Semantic Tabu", "semantic_tabu", "tabu_*.json", False),
+    ("B", "Graph", "taxonomy", "taxonomy_*.json", True),
+    ("C", "Random seed", "random_seed", "seed_*.json", False),
+    ("D", "Seed + Tabu", "seed_tabu", "seed_tabu_*.json", False),
+    ("E", "Seed + graph", "taxonomy_seed", "taxonomy_seed_*.json", True),
+    ("F", "Orthogonal", "strange_worlds", "worlds_*.json", False),
+    ("G", "Orthogonal + Tabu", "strange_worlds_tabu", "worlds_tabu_*.json", False),
+    ("H", "Orthogonal + graph", "taxonomy_worlds", "taxonomy_worlds_*.json", True),
 ]
 
-def load_all_solutions():
-    """Load all solutions from all conditions."""
-    data = {}
-    for condition, (pattern, letter) in CONDITIONS.items():
-        condition_dir = BASE_DIR / condition
-        data[condition] = []
-        for f in sorted(condition_dir.glob(pattern)):
-            if "bank" not in f.name:
-                with open(f) as fp:
-                    data[condition].append(json.load(fp))
-    return data
 
-def analyze_uniqueness(data):
-    """Check label uniqueness across conditions."""
-    print("\n" + "="*60)
-    print("SOLUTION UNIQUENESS ANALYSIS")
-    print("="*60)
+def run_files(directory, pattern):
+    return sorted(path for path in (BASE / directory).glob(pattern) if "bank" not in path.name)
 
-    all_labels = []
-    labels_by_condition = {}
 
-    for condition, solutions in data.items():
-        labels = [s["solution"]["label"] for s in solutions]
-        labels_by_condition[condition] = labels
-        all_labels.extend(labels)
+def strict_payloads(paths):
+    payloads = []
+    for path in paths:
+        try:
+            payloads.append((path, json.loads(path.read_text())))
+        except json.JSONDecodeError:
+            pass
+    return payloads
 
-    unique_labels = set(all_labels)
-    print(f"\nTotal solutions: {len(all_labels)}")
-    print(f"Unique labels: {len(unique_labels)}")
-    print(f"Label overlap: {len(all_labels) - len(unique_labels)} duplicates")
 
-    # Check for cross-condition duplicates
-    cross_duplicates = []
-    for i, (c1, labels1) in enumerate(labels_by_condition.items()):
-        for c2, labels2 in list(labels_by_condition.items())[i+1:]:
-            overlap = set(labels1) & set(labels2)
-            if overlap:
-                cross_duplicates.append((c1, c2, overlap))
+def has_nonempty_top_level_solution(path):
+    """Detect the serialized top-level solution even when reasoning broke JSON."""
+    raw = path.read_text(errors="replace")
+    return bool(re.search(r'(?m)^  "solution": \{\s*\n\s*"label"\s*:', raw))
 
-    if cross_duplicates:
-        print("\nCross-condition duplicates found:")
-        for c1, c2, overlap in cross_duplicates:
-            print(f"  {c1} ∩ {c2}: {overlap}")
-    else:
-        print("\n✓ Zero cross-condition label overlap")
 
-    return labels_by_condition
+def graph_solutions(directory):
+    con = sqlite3.connect(BASE / directory / "taxonomy.db")
+    rows = con.execute(
+        "SELECT metadata FROM nodes WHERE node_type = 'SOLUTION' ORDER BY rowid"
+    ).fetchall()
+    con.close()
+    return [json.loads(metadata)["full_solution"] for (metadata,) in rows]
 
-def analyze_cross_seed(data, seeds_to_check=["theatrical", "chalaco", "coralline", "whizgig"]):
-    """Compare solutions for the same seed across conditions."""
-    print("\n" + "="*60)
-    print("CROSS-SEED COMPARISON")
-    print("="*60)
 
-    seeded_conditions = ["strange_worlds", "strange_worlds_tabu", "random_seed", "seed_tabu"]
+def canonical_solutions(directory, pattern, taxonomy):
+    if taxonomy:
+        return graph_solutions(directory)
+    result = []
+    for _, payload in strict_payloads(run_files(directory, pattern)):
+        solution = payload.get("solution") or {}
+        if solution:
+            result.append(solution)
+    return result
 
-    for seed in seeds_to_check:
-        print(f"\n--- Seed: {seed} ---")
-        for condition in seeded_conditions:
-            for sol in data[condition]:
-                if sol.get("seed") == seed:
-                    letter = CONDITIONS[condition][1]
-                    label = sol["solution"]["label"]
-                    mechanism = sol["solution"]["core_mechanism"][:80] + "..."
-                    print(f"  [{letter}] {label}")
-                    print(f"      {mechanism}")
-                    break
 
-def extract_all_labels(data):
-    """Print all labels by condition."""
-    print("\n" + "="*60)
-    print("ALL SOLUTION LABELS BY CONDITION")
-    print("="*60)
+def inspect_condition(letter, name, directory, pattern, taxonomy):
+    paths = run_files(directory, pattern)
+    valid = strict_payloads(paths)
+    nonempty = sum(has_nonempty_top_level_solution(path) for path in paths)
+    solutions = canonical_solutions(directory, pattern, taxonomy)
+    return {
+        "letter": letter,
+        "name": name,
+        "slots": len(paths),
+        "canonical": len(solutions),
+        "top_level": nonempty,
+        "strict": len(valid),
+        "solutions": solutions,
+    }
 
-    for condition, solutions in data.items():
-        letter = CONDITIONS[condition][1]
-        print(f"\n--- {condition} ({letter}) ---")
-        for i, sol in enumerate(solutions, 1):
-            print(f"  {i:2}. {sol['solution']['label']}")
 
-def analyze_tabu_progression(data):
-    """Show how tabu lists grow."""
-    print("\n" + "="*60)
-    print("TABU ENGAGEMENT PROGRESSION")
-    print("="*60)
+def same_seed(rows, seed="theatrical"):
+    print(f"\nSame released seed ({seed!r}); labels only")
+    for row in rows:
+        if row["letter"] not in "CDEFGH":
+            continue
+        _, _, directory, pattern, _ = next(c for c in CONDITIONS if c[0] == row["letter"])
+        match = None
+        for _, payload in strict_payloads(run_files(directory, pattern)):
+            if payload.get("seed") == seed and payload.get("solution"):
+                match = payload["solution"]
+                break
+        label = match.get("label") if match else "[not recoverable from strict run JSON]"
+        print(f"  {row['letter']}: {label}")
 
-    for condition in ["semantic_tabu", "seed_tabu"]:
-        print(f"\n--- {condition} ---")
-        for sol in data[condition]:
-            run = sol["run"]
-            reasoning = sol.get("reasoning", "")
-
-            # Count "AVOIDING" mentions
-            avoiding_count = reasoning.lower().count("avoiding")
-
-            # Check for explicit list
-            has_list = "structural approaches" in reasoning.lower()
-
-            if run in [1, 5, 10, 15, 20, 25]:
-                print(f"  Run {run:2}: 'avoiding' mentions: {avoiding_count}, explicit list: {has_list}")
-
-def generate_latex_tables(data):
-    """Generate LaTeX tables for the paper."""
-    print("\n" + "="*60)
-    print("LATEX TABLES")
-    print("="*60)
-
-    # Cross-seed comparison table
-    print("\n% Cross-seed comparison (theatrical)")
-    print("\\begin{table}[h]")
-    print("\\centering")
-    print("\\begin{tabular}{lll}")
-    print("\\toprule")
-    print("Condition & Solution & Transfer type \\\\")
-    print("\\midrule")
-
-    for seed in ["theatrical"]:
-        for condition in ["random_seed", "seed_tabu", "strange_worlds", "strange_worlds_tabu"]:
-            for sol in data[condition]:
-                if sol.get("seed") == seed:
-                    letter = CONDITIONS[condition][1]
-                    label = sol["solution"]["label"]
-                    # Determine transfer type based on condition
-                    if condition == "random_seed":
-                        transfer = "Vocabulary"
-                    elif condition == "seed_tabu":
-                        transfer = "Mechanism"
-                    elif condition == "strange_worlds":
-                        transfer = "Ontology"
-                    else:
-                        transfer = "Ontology (constrained)"
-                    print(f"{letter} ({condition.replace('_', ' ').title()}) & {label} & {transfer} \\\\")
-                    break
-
-    print("\\bottomrule")
-    print("\\end{tabular}")
-    print("\\caption{Same seed produces different transfer types across methods.}")
-    print("\\end{table}")
 
 def main():
-    print("Loading all solutions...")
-    data = load_all_solutions()
+    rows = [inspect_condition(*condition) for condition in CONDITIONS]
 
-    for condition, solutions in data.items():
-        print(f"  {condition}: {len(solutions)} solutions")
+    print("Released artifact reconciliation")
+    print("condition  slots  canonical  top-level  strict JSON")
+    for row in rows:
+        print(
+            f"{row['letter']:>9} {row['slots']:>6} {row['canonical']:>9} "
+            f"{row['top_level']:>10} {row['strict']:>12}"
+        )
+    totals = tuple(sum(row[key] for row in rows) for key in ("slots", "canonical", "top_level", "strict"))
+    print(f"{'total':>9} {totals[0]:>6} {totals[1]:>9} {totals[2]:>10} {totals[3]:>12}")
 
-    analyze_uniqueness(data)
-    analyze_cross_seed(data)
-    extract_all_labels(data)
-    analyze_tabu_progression(data)
-    generate_latex_tables(data)
+    expected = (200, 196, 195, 168)
+    if totals != expected:
+        raise SystemExit(f"unexpected reconciliation {totals}; expected {expected}")
+
+    all_solutions = [solution for row in rows for solution in row["solutions"]]
+    labels = [solution["label"].strip() for solution in all_solutions]
+    mechanisms = [solution["core_mechanism"].strip() for solution in all_solutions]
+    print("\nExact-string checks")
+    print(f"  labels:          {len(set(labels))}/{len(labels)} unique")
+    print(f"  core mechanisms: {len(set(mechanisms))}/{len(mechanisms)} unique")
+    if len(set(labels)) != 196 or len(set(mechanisms)) != 196:
+        raise SystemExit("canonical exact-string uniqueness changed")
+
+    same_seed(rows)
+    print("\nThese checks establish artifact counts and string properties only.")
+    return 0
+
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

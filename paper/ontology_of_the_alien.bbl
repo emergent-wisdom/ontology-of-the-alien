@@ -1,10 +1,10 @@
 \begin{thebibliography}{10}
 
 \bibitem{doshi2024}
-Anil Doshi and Oliver Hauser.
-\newblock Generative ai enhances individual creativity but reduces the
+Anil~R. Doshi and Oliver~P. Hauser.
+\newblock Generative {AI} enhances individual creativity but reduces the
   collective diversity of novel content.
-\newblock {\em Science Advances}, 10(28), 2024.
+\newblock {\em Science Advances}, 10(28):eadn5290, 2024.
 
 \bibitem{haase2025}
 Jennifer Haase, Paul H.~P. Hanel, and Sebastian Pokutta.
@@ -24,42 +24,74 @@ Dustin Wright, Sarah Masud, Jared Moore, Srishti Yadav, Maria Antoniak,
 \newblock Epistemic diversity and knowledge collapse in large language models.
 \newblock {\em arXiv preprint arXiv:2510.04226}, 2025.
 
+\bibitem{runco2012standard}
+Mark~A. Runco and Garrett~J. Jaeger.
+\newblock The standard definition of creativity.
+\newblock {\em Creativity Research Journal}, 24(1):92--96, 2012.
+
 \bibitem{westerberg2025strangeworlds}
 Henrik Westerberg.
 \newblock Algorithmic creativity via strange worlds: A multi-agent toolkit for
   escaping the median trap.
 \newblock Zenodo, 2025.
 
-\bibitem{lu2025}
-Yining Lu, Dixuan Wang, Tianjian Li, Dongwei Jiang, Sanjeev Khudanpur, Meng
-  Jiang, and Daniel Khashabi.
-\newblock Benchmarking language model creativity: A case study on code
-  generation.
-\newblock In {\em NAACL}, 2025.
+\bibitem{einstein1949autobiographical}
+Albert Einstein.
+\newblock Autobiographical notes.
+\newblock In Paul~Arthur Schilpp, editor, {\em Albert Einstein:
+  Philosopher-Scientist}, pages 1--95. Library of Living Philosophers,
+  Evanston, IL, 1949.
 
 \bibitem{westerberg2026fractal}
 Henrik Westerberg.
 \newblock Fractal intelligence: Conceptual decomposition as problem-solving
   infrastructure.
 \newblock Zenodo, 2026.
+\newblock Version 1; post-publication interpretive framework.
 
 \bibitem{debono1970}
 Edward de~Bono.
 \newblock {\em Lateral Thinking: Creativity Step by Step}.
 \newblock Harper \& Row, 1970.
 
-\bibitem{taleb2012}
-Nassim~Nicholas Taleb.
-\newblock {\em Antifragile: Things That Gain from Disorder}.
-\newblock Random House, 2012.
+\bibitem{lu2025}
+Yining Lu, Dixuan Wang, Tianjian Li, Dongwei Jiang, Sanjeev Khudanpur, Meng
+  Jiang, and Daniel Khashabi.
+\newblock Benchmarking language model creativity: A case study on code
+  generation.
+\newblock In {\em Proceedings of the 2025 Conference of the Nations of the
+  Americas Chapter of the Association for Computational Linguistics: Human
+  Language Technologies (Volume 1: Long Papers)}, pages 2776--2794. Association
+  for Computational Linguistics, 2025.
+
+\bibitem{reimers2019sbert}
+Nils Reimers and Iryna Gurevych.
+\newblock Sentence-{BERT}: Sentence embeddings using siamese {BERT}-networks.
+\newblock In {\em Proceedings of the 2019 Conference on Empirical Methods in
+  Natural Language Processing and the 9th International Joint Conference on
+  Natural Language Processing}, pages 3982--3992. Association for Computational
+  Linguistics, 2019.
+
+\bibitem{sentenceTransformersMiniLM}
+{Sentence Transformers}.
+\newblock {all-MiniLM-L6-v2} model card.
+\newblock Hugging Face, 2021.
+\newblock Model revision 1110a243fdf4706b3f48f1d95db1a4f5529b4d41.
+
+\bibitem{arnold1953arcturus}
+John~E. Arnold.
+\newblock Case study: Arcturus iv.
+\newblock MIT Creative Engineering Laboratory case study; Stanford Digital
+  Repository, 1953.
+\newblock Original case study with later editorial commentary.
 
 \bibitem{eno1975}
 Brian Eno and Peter Schmidt.
 \newblock Oblique strategies: Over one hundred worthwhile dilemmas.
-\newblock Self-published, 1975.
+\newblock Self-published card deck, 1975.
 
 \bibitem{gordon1961}
-William Gordon.
+William J.~J. Gordon.
 \newblock {\em Synectics: The Development of Creative Capacity}.
 \newblock Harper \& Row, 1961.
 
@@ -68,88 +100,147 @@ Anthony Dunne and Fiona Raby.
 \newblock {\em Speculative Everything: Design, Fiction, and Social Dreaming}.
 \newblock MIT Press, 2013.
 
-\bibitem{yasunaga2024analogical}
-Michihiro Yasunaga, Xinyun Chen, Yujia Li, Panupong Pasupat, Jure Leskovec,
-  Percy Liang, Ed~H. Chi, and Denny Zhou.
-\newblock Large language models as analogical reasoners.
-\newblock In {\em ICLR}, 2024.
-
 \bibitem{gentner1983}
 Dedre Gentner.
 \newblock Structure-mapping: A theoretical framework for analogy.
 \newblock {\em Cognitive Science}, 7(2):155--170, 1983.
 
-\bibitem{liang2024}
-Tian Liang, Zhiwei He, Wenxiang Jiao, Xing Wang, Yan Wang, Rui Wang, Yujiu
-  Yang, Shuming Shi, and Zhaopeng Tu.
-\newblock Encouraging divergent thinking in large language models through
-  multi-agent debate.
-\newblock In {\em EMNLP}, 2024.
+\bibitem{yasunaga2024analogical}
+Michihiro Yasunaga, Xinyun Chen, Yujia Li, Panupong Pasupat, Jure Leskovec,
+  Percy Liang, Ed~H. Chi, and Denny Zhou.
+\newblock Large language models as analogical reasoners.
+\newblock In {\em The Twelfth International Conference on Learning
+  Representations}, 2024.
 
-\bibitem{du2024}
-Yilun Du, Shuang Li, Antonio Torralba, Joshua~B. Tenenbaum, and Igor Mordatch.
-\newblock Improving factuality and reasoning in language models through
-  multiagent debate.
-\newblock In {\em ICML}, 2024.
+\bibitem{mehrotra2024associative}
+Pronita Mehrotra, Aishni Parab, and Sumit Gulwani.
+\newblock Enhancing creativity in large language models through associative
+  thinking strategies.
+\newblock {\em arXiv preprint arXiv:2405.06715}, 2024.
 
-\bibitem{zhang2025verbalized}
-Jiayi Zhang, Simon Yu, Derek Chong, Anthony Sicilia, Michael~R. Tomz,
-  Christopher~D. Manning, and Weiyan Shi.
-\newblock Verbalized sampling: How to mitigate mode collapse and unlock {LLM}
-  diversity.
-\newblock {\em arXiv preprint arXiv:2510.01171}, 2025.
+\bibitem{ma2026metamuse}
+Ruiying Ma, Chieh-Jan~Mike Liang, Yanjie Gao, and Francis~Y. Yan.
+\newblock {MetaMuse}: Algorithm generation via creative ideation.
+\newblock In {\em The Fourteenth International Conference on Learning
+  Representations}, 2026.
+\newblock arXiv:2510.03851v1 submitted 4 October 2025.
 
-\bibitem{zwicky1969}
-Fritz Zwicky.
-\newblock {\em Discovery, Invention, Research Through the Morphological
-  Approach}.
-\newblock Macmillan, 1969.
-
-\bibitem{sumers2024}
-Theodore~R. Sumers, Shunyu Yao, Karthik Narasimhan, and Thomas~L. Griffiths.
-\newblock Cognitive architectures for language agents.
-\newblock {\em Transactions on Machine Learning Research}, 2024.
-
-\bibitem{madaan2023}
-Aman Madaan, Niket Tandon, Prakhar Gupta, Skyler Hallinan, Luyu Gao, Sarah
-  Wiegreffe, Uri Alon, Nouha Dziri, Shrimai Prabhumoye, Yiming Yang, et~al.
-\newblock Self-refine: Iterative refinement with self-feedback.
-\newblock In {\em NeurIPS}, 2023.
-
-\bibitem{liu2025dmad}
-Yexiang Liu, Jie Cao, Zekun Li, Ran He, and Tieniu Tan.
-\newblock Breaking mental set to improve reasoning through diverse multi-agent
-  debate.
-\newblock In {\em ICLR}, 2025.
-
-\bibitem{holtzman2020}
-Ari Holtzman, Jan Buys, Li~Du, Maxwell Forbes, and Yejin Choi.
-\newblock The curious case of neural text degeneration.
-\newblock In {\em ICLR}, 2020.
-
-\bibitem{vijayakumar2016}
-Ashwin~K. Vijayakumar, Michael Cogswell, Ramprasaath~R. Selvaraju, Qing Sun,
-  Stefan Lee, David Crandall, and Dhruv Batra.
-\newblock Diverse beam search: Decoding diverse solutions from neural sequence
+\bibitem{suzuki2025uot}
+Yuto Suzuki and Farnoush Banaei-Kashani.
+\newblock Universe of thoughts: Enabling creative reasoning with large language
   models.
-\newblock arXiv:1610.02424, 2016.
+\newblock {\em arXiv preprint arXiv:2511.20471}, 2025.
+\newblock Version 1 submitted 25 November 2025.
 
-\bibitem{wang2023}
-Xuezhi Wang, Jason Wei, Dale Schuurmans, Quoc Le, Ed~Chi, Sharan Narang,
-  Aakanksha Chowdhery, and Denny Zhou.
-\newblock Self-consistency improves chain of thought reasoning in language
+\bibitem{ruan2025g2}
+Zhiwen Ruan, Yixia Li, Yefeng Liu, Yun Chen, Weihua Luo, Peng Li, Yang Liu, and
+  Guanhua Chen.
+\newblock {G2}: Guided generation for enhanced output diversity in {LLM}s.
+\newblock In {\em Proceedings of the 2025 Conference on Empirical Methods in
+  Natural Language Processing}, pages 14116--14134. Association for
+  Computational Linguistics, November 2025.
+
+\bibitem{wang2020poet}
+Rui Wang, Joel Lehman, Aditya Rawal, Jiale Zhi, Yulun Li, Jeffrey Clune, and
+  Kenneth~O. Stanley.
+\newblock Enhanced {POET}: Open-ended reinforcement learning through unbounded
+  invention of learning challenges and their solutions.
+\newblock In {\em Proceedings of the 37th International Conference on Machine
+  Learning}, volume 119 of {\em Proceedings of Machine Learning Research},
+  pages 9940--9951. PMLR, 2020.
+
+\bibitem{mirofish2025}
+{MiroFish contributors}.
+\newblock {MiroFish}: Multi-agent social simulation repository.
+\newblock GitHub repository, 2025.
+\newblock Repository initiated in 2025; version inspected 10 August 2026.
+
+\bibitem{lehman2011novelty}
+Joel Lehman and Kenneth~O. Stanley.
+\newblock Abandoning objectives: Evolution through the search for novelty
+  alone.
+\newblock {\em Evolutionary Computation}, 19(2):189--223, 2011.
+
+\bibitem{mouret2015mapelites}
+Jean-Baptiste Mouret and Jeff Clune.
+\newblock Illuminating search spaces by mapping elites.
+\newblock {\em arXiv preprint arXiv:1504.04909}, 2015.
+
+\bibitem{bradley2024qdaif}
+Herbie Bradley, Andrew Dai, Hannah~Benita Teufel, Jenny Zhang, Koen
+  Oostermeijer, Marco Bellagente, Jeff Clune, Kenneth~O. Stanley, Gr{\'e}gory
+  Schott, and Joel Lehman.
+\newblock Quality-diversity through {AI} feedback.
+\newblock In {\em The Twelfth International Conference on Learning
+  Representations}, 2024.
+
+\bibitem{gottweis2026coscientist}
+Juraj Gottweis, Wei-Hung Weng, Alexander Daryin, Tao Tu, et~al.
+\newblock Accelerating scientific discovery with co-scientist.
+\newblock {\em Nature}, 655:487--496, 2026.
+\newblock System publicly described in February 2025 as arXiv:2502.18864.
+
+\bibitem{duan2024conceptvis}
+Runlin Duan, Nachiketh Karthik, Jingyu Shi, Rahul Jain, Maria~C. Yang, and
+  Karthik Ramani.
+\newblock {ConceptVis}: Generating and exploring design concepts for
+  early-stage ideation using large language model.
+\newblock In {\em Volume 3B: 50th Design Automation Conference}, page
+  V03BT03A042. American Society of Mechanical Engineers, 2024.
+
+\bibitem{siangliulue2016ideahound}
+Pao Siangliulue, Joel Chan, Steven~P. Dow, and Krzysztof~Z. Gajos.
+\newblock {IdeaHound}: Improving large-scale collaborative ideation with
+  crowd-powered real-time semantic modeling.
+\newblock In {\em Proceedings of the 29th Annual Symposium on User Interface
+  Software and Technology}, pages 609--624. ACM, 2016.
+
+\bibitem{buehler2025agentic}
+Markus~J. Buehler.
+\newblock Agentic deep graph reasoning yields self-organizing knowledge
+  networks.
+\newblock {\em Journal of Materials Research}, 40:2204--2242, 2025.
+
+\bibitem{ghafarollahi2024sciagents}
+Alireza Ghafarollahi and Markus~J. Buehler.
+\newblock {SciAgents}: Automating scientific discovery through multi-agent
+  intelligent graph reasoning.
+\newblock {\em arXiv preprint arXiv:2409.05556}, 2024.
+
+\bibitem{massoudi2025design}
+Soheyl Massoudi and Mark Fuge.
+\newblock Agentic large language models for conceptual systems engineering and
+  design.
+\newblock {\em arXiv preprint arXiv:2507.08619}, 2025.
+
+\bibitem{wei2022cot}
+Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Brian Ichter, Fei Xia,
+  Ed~H. Chi, Quoc~V. Le, and Denny Zhou.
+\newblock Chain-of-thought prompting elicits reasoning in large language
   models.
-\newblock In {\em ICLR}, 2023.
+\newblock In {\em Advances in Neural Information Processing Systems},
+  volume~35, 2022.
 
-\bibitem{sourati2025}
-Zhivar Sourati, Alireza~S. Ziabari, and Morteza Dehghani.
-\newblock The homogenizing effect of large language models on human expression
-  and thought.
-\newblock {\em arXiv preprint arXiv:2508.01491}, 2025.
+\bibitem{yao2023tot}
+Shunyu Yao, Dian Yu, Jeffrey Zhao, Izhak Shafran, Thomas~L. Griffiths, Yuan
+  Cao, and Karthik Narasimhan.
+\newblock Tree of thoughts: Deliberate problem solving with large language
+  models.
+\newblock In {\em Advances in Neural Information Processing Systems},
+  volume~36, 2023.
 
-\bibitem{kahneman2011}
-Daniel Kahneman.
-\newblock {\em Thinking, Fast and Slow}.
-\newblock Farrar, Straus and Giroux, 2011.
+\bibitem{besta2024got}
+Maciej Besta, Nils Blach, Ales Kubicek, Robert Gerstenberger, Michal
+  Podstawski, Lukas Gianinazzi, Joanna Gajda, Tomasz Lehmann, Hubert
+  Niewiadomski, Piotr Nyczyk, and Torsten Hoefler.
+\newblock Graph of thoughts: Solving elaborate problems with large language
+  models.
+\newblock In {\em Proceedings of the AAAI Conference on Artificial
+  Intelligence}, volume~38, pages 17682--17690, 2024.
+
+\bibitem{cox2005metacognition}
+Michael~T. Cox.
+\newblock Metacognition in computation: A selected research review.
+\newblock {\em Artificial Intelligence}, 169(2):104--141, 2005.
 
 \end{thebibliography}

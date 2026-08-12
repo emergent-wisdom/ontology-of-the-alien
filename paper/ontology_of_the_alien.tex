@@ -1,424 +1,597 @@
 \documentclass[11pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{lmodern}
-\usepackage{hyperref}
 \usepackage{url}
 \usepackage{booktabs}
-\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{tikz}
-\usepackage{arxiv}
+\usetikzlibrary{positioning,arrows.meta,fit}
+\usepackage[longtitle]{emergentwisdom-preprint}
 \usepackage{microtype}
 \usepackage{float}
+\usepackage{placeins}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\hypersetup{
+  hidelinks,
+  pdftitle={The Ontology of the Alien: World-Diversity Search and Evolving Solution Ontologies},
+  pdfauthor={Henrik Westerberg},
+  pdfsubject={World-diversity search and ontology-governed intervention search for open-ended problems},
+  pdfkeywords={open-ended problem solving, world-diversity search, counterfactual worlds, solution-space search, LLM ideation, multi-agent systems, knowledge graphs, creativity support}
+}
 
-\title{The Ontology of the Alien:\\[0.5em]\large Escaping the Median Trap in LLM Ideation}
+\title{The Ontology of the Alien:\\World-Diversity Search and Evolving Solution Ontologies}
 \def\shorttitle{The Ontology of the Alien}
 
 \author{Henrik Westerberg\\Emergent Wisdom\\\texttt{henrik.westerberg@emergentwisdom.org}}
 
-\date{March 2026\thanks{Revised April 2026. This revision integrates the Fractal Intelligence framework and makes the three-stage industrialization thesis explicit (\S\ref{sec:pipeline}), quantifies the structural-distinctness claim with sentence-embedding cosine similarity (\S3.1), clarifies the metacognition framing as functional rather than phenomenological (\S3.2), specifies the progressive-depth selection tournament, disambiguates `taxonomy' (the stored artifact) from `ontology' (the category-restructuring behavior), adds quantitative topology metrics (root count, depth, branching) to the graph-statistics table, includes verbatim four-phase traces of the Orthogonal Insight pipeline (\S2.4 and Appendix~\ref{sec:appendix-traces}), corrects several run-specific details against the dataset, and updates reference metadata. No new experiments were conducted. The original release remains archived at DOI~\href{https://doi.org/10.5281/zenodo.18912179}{10.5281/zenodo.18912179}.}}
+\date{March 7, 2026\\\small Revised: August 15, 2026}
 
 \begin{document}
 \maketitle
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% ABSTRACT
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \begin{abstract}
-Large Language Models asked to ``be creative'' produce solutions that converge on a small number of archetypes---the Median Trap. We systematically compare eight methods for inducing structural diversity, contrasting simple prompting against three novel architectures: Semantic Tabu (accumulation of constraints), the Solution Taxonomy (a dual-agent ``Studio Model''), and the Orthogonal Insight Protocol (deriving mechanisms from alternative physics). In a controlled experiment ($N=196$), the Studio Model exhibited emergent metacognition: the system autonomously repaired its own taxonomy when faced with errors and actively commissioned research into unexplored conceptual regions. Under constraint pressure, the system synthesized novel combinations that do not emerge under standard prompting, including antifragility applied to gig-worker retirement (inverting risk flows so volatility benefits the system), metric dissolution (deconstructing problem variables), and ontological accommodation (restructuring categories when data defies classification). We release the method configurations and a dataset of 196 distinctly-labeled solution archetypes, demonstrating that adversarial ontological accommodation forces LLMs to escape the median.
+Open-ended problems such as institutional design lack enumerable solution spaces and cheap automatic evaluators. \emph{World-diversity search} moves variation upstream. Target-independent Builders construct textual worlds with altered causal rules; purpose-blind Solvers address the same target under each rule set; and compilers translate the resulting mechanisms into a common target-domain schema. Building on this previously released operator, this paper introduces \emph{ontology-governed intervention search}. A Taxonomist curates a persistent typed ontology of complete interventions, redirects structurally repetitive proposals, revises categories, and returns the changed map to fresh Explorers. Together, the operators provide the expansion stage of a proposed \emph{expansion-before-optimization} pipeline: diversify causal premises, then make the resulting candidate population cumulative and steerable.
+
+Across eight workflows on one retirement-design problem, the released system produced 196 candidate records; its world stage comprised 25 world-and-solve branches. An unblinded post-hoc census classified bottleneck relief as clear in 17 branches and partial in eight; all 25 Solvers added multi-component architecture beyond the stipulated premise. Seven complete rejection--redirection--mechanism-change chains appeared across 75 planned graph positions. These artifacts document automated fan-out, premise-conditioned generation, and graph-conditioned redirection, but do not establish external novelty, utility, causal performance, cross-domain generality, or large-scale efficiency.
 \end{abstract}
 
-\keywords{Artificial Intelligence, LLM Creativity, Cognitive Architecture, Prompt Engineering, Lateral Thinking, Multi-Agent Systems}
+\keywords{Open-Ended Problem Solving, World-Diversity Search, Counterfactual Worlds, Solution-Space Search, LLM Ideation, Multi-Agent Systems, Knowledge Graphs, Creativity Support}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% INTRODUCTION
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction: From Answers to Solution-Space Search}
 
-\section{Introduction: The Median Trap}
+Problem-directed reasoning normally asks how to find a better answer inside the causal world implied by the target. World-diversity search asks a prior question: what becomes thinkable if the system first constructs many different worlds in which the target must be solved? The unit of variation is no longer only an answer, a reasoning path, or a random cue; it is a coherent set of causal premises. At scale, the problem is therefore not obtaining another plausible proposal but deciding which world---and later which unrepresented mechanism family---the next model call should explore. We call repeated sampling from a narrow causal repertoire the \emph{Median Trap}, an engineering failure mode whose severity varies by task, model, and intervention~\cite{doshi2024,haase2025,zhang2025noveltybench,wright2025}.
 
-Ask a Large Language Model (LLM) to solve a difficult problem, and it will provide a reasonable answer. Ask it one hundred times, and it will provide one hundred variations of that same reasonable answer. This is the \emph{Median Trap}. Recent work confirms this pattern: when many users employ generative AI, individual outputs may improve while collective diversity collapses \cite{doshi2024}. Systematic benchmarking reveals the depth of the problem: only 0.28\% of LLM-generated responses reach the top 10\% of human creativity \cite{haase2025}, larger models within a family often exhibit \emph{less} diversity than their smaller counterparts \cite{zhang2025noveltybench}, and model size correlates negatively with epistemic diversity across topics and cultures \cite{wright2025}. Because LLMs minimize loss against training data, the past strictly dominates the future. The model's outputs collapse toward the average of what has already been said. Increasing the ``temperature'' parameter does not solve this; it merely adds lexical noise to the same underlying semantic structure, akin to shaking a camera rather than moving the photographer.
+The unit of search is a \emph{candidate solution object}: a proposed intervention in an external system, represented by its mechanism, actors, operation, failure analysis, and claimed outcomes. The candidate designation separates generation from validation because originality and effectiveness are distinct requirements for creativity~\cite{runco2012standard}. A problem-solving idea machine must generate mechanisms, preserve a structured account of what it has tried, and use that account to decide what kind of mechanism to request next.
 
-To generate genuinely non-obvious solutions, we must move the photographer. In prior work \cite{westerberg2025strangeworlds}, we introduced the Orthogonal Insight Protocol, a multi-agent pipeline that constructs coherent ``strange worlds'' with alternative physics and solves problems within them before extracting mechanisms back to reality. A controlled comparison showed that standard ``be creative'' prompting converges on five to six archetypes, while the protocol produces structurally diverse mechanisms. However, that study tested only one method against a baseline, leaving open the question of \emph{why} the protocol works and which components drive diversity.
+The intended domain differs from bounded synthesis tasks with a fixed interface and executable score. In an open-ended social, institutional, scientific, or strategic problem, the relevant mechanism families may not be known before search, and proposals may require heterogeneous forms of evidence. The system must therefore help construct the coordinates of the solution space while it explores them. This paper instantiates and examines that architecture on one institutional-design task; applicability to other large or general problems remains a research question.
 
-This paper extends that work in three directions. First, we decompose the protocol into its constituent mechanisms and test them independently and in combination across eight conditions ($N=196$). Second, we introduce the Solution Taxonomy, a dual-agent ``Studio Model'' that exhibited self-directed behaviors not present in the original design. Third, we provide a comparative analysis showing how different constraint architectures shape not just the quantity of novel solutions but the topology of the resulting solution space.
+The architecture has a fan-out/fold-back geometry. World diversity provides the fan-out: separate Builders turn unrelated seeds into target-independent causal regimes, and purpose-blind Solvers attack the same target inside them. Mechanism compilation then removes the fictional surface and places every proposed intervention in a common schema. The fold-back is an ontology \emph{of} those candidate interventions: a typed, revisable representation of mechanisms already attempted and branches that remain underrepresented. The world population expands what can become locally obvious; the candidate population makes that breadth cumulative and steerable. Here, \emph{alien} means displaced from ordinary premises or unrepresented in the current candidate map.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% METHODS SECTION
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Chalaco is one branch of the released 25-world fan-out. Nothing there retains its properties for more than 4.7 seconds; matter, value, and identity persist only as exchange patterns among neighbors. ``Saving for retirement'' is therefore a category error, but remaining woven into a durable pattern is not. The purpose-blind in-world Solver proposed pattern rights earned through long participation. Direct translation produced \emph{Weave Collectives}, where presence earns non-transferable claims on shared resources. The example illustrates mechanism generation rather than policy validation: change the premises until an unfamiliar mechanism becomes locally ordinary, then compile its causal relation into a target-domain intervention. The candidate ontology performs the complementary task of deciding whether such a compiled mechanism repeats an occupied family and where subsequent search should go.
 
-\section{Methods}
+The machine combines breadth with memory. Many-world construction supplies multiple causal departures; ontology-guided redirection records occupied mechanism families and uses those distinctions to guide later search. The resulting architecture is \emph{fan out, solve locally, compile, fold back, redirect, and select}. Orthogonal Insight, released in prior work on 8 December 2025, implemented the first three operations~\cite{westerberg2025strangeworlds}; the released runner automated the world-and-solve fan-out. This paper implements the ontology map-and-redirect kernel. The graph did not yet commission new worlds, and diversity-preserving selection and progressively realistic validation remain proposed. The organizing principle is \emph{expansion before optimization}: spend an early search budget enlarging the set of represented causal mechanisms before concentrating expensive evaluation on a small portfolio.
 
-We compare eight methods for inducing structural diversity in LLM ideation, organized by their inspiration source and novelty enforcement mechanism. To our knowledge, three are novel contributions (A, B, F), four are novel combinations (D, E, G, H), and one is an LLM operationalization of an established technique (C). Code and data are available via the experiment repository (\url{https://github.com/emergent-wisdom/ontology-of-the-alien}). All conditions address the same prompt: ``How do we build a retirement system for people who don't know how much they will earn next month, where `consistency' is impossible?'' We employed Claude Opus 4.5 for all experiments, targeting 25 solutions per condition (200 total). Conditions C--H utilized random seed words drawn from the Unix system dictionary (235,000 words). Due to incomplete negotiation in some taxonomy conditions, 196 solutions were ultimately generated (see Table~\ref{tab:solution-counts}).
+The research program makes two method-level claims. Orthogonal Insight contributes world-diversity search: upstream causal-regime fan-out followed by purpose-blind local solving and mechanism compilation. This paper contributes ontology-governed intervention search: a persistent, LLM-curated ontology induced from complete candidate solution objects and used as operational control state. Its curator can reorganize mechanism categories, reject structural repetition with diagnostic feedback, and condition fresh proposer contexts. Both are protocol-level contributions whose component techniques and precedents are examined in Section~\ref{sec:related}.
 
-\subsection{Condition A: Semantic Tabu}
+The eight-workflow matrix makes that grammar inspectable. It crosses three local source frames---the target alone, an unrelated word open to free association, or a complete counterfactual world and in-world solution---with three population states: none, a flat exclusion archive, or a curator-governed ontology. H supplies the richest executed combination: one displaced world-and-solution artifact plus the current candidate graph. The study contains 200 planned positions and 196 canonical candidate records---125 direct or Tabu-mediated outputs and 71 curator-accepted graph records---from one retirement-design problem and one nominal model configuration. The analysis treats the workflows as path-dependent control trajectories.
 
-Condition A relies on ``Semantic Tabu,'' where each solution is generated with full access to all previous solutions from the same run. This method enforces a strict three-step protocol: the model must first analyze previous solutions to extract mechanism-level features (rather than surface descriptions), then explicitly list the structural approaches it is avoiding, and finally generate a solution that evades all identified mechanisms. By the twenty-fifth run, the tabu list contains 24 distinct mechanism descriptions, forcing the model into increasingly unfamiliar territory. This approach directly applies Denial Prompting \cite{lu2025}, but with implementation-level refinements that enforce avoidance reasoning prior to generation and target deep semantic mechanisms rather than keywords.
+Specifically, the paper contributes:
 
-\subsection{Condition B: Solution Taxonomy (The ``Studio Model'')}
+\begin{enumerate}
+  \item world-diversity search, a released protocol for candidate-space expansion in which target-independent causal worlds supply parallel departures, purpose-blind local solves produce in-world proposals, and compilation represents their operative relations in a common target-domain schema;
+  \item ontology-governed intervention search, an implemented Explorer--Taxonomist controller with fresh proposal contexts, persistent typed graph memory, curator-assigned mechanism-equivalence judgments, diagnostic rejection and retry, and category restructuring; and
+  \item an artifact-grounded study of eight path-dependent workflows, combining deterministic artifact and text diagnostics with an explicitly unblinded, post-hoc census of 25 world/Solver branches and stored population-control traces.
+\end{enumerate}
 
-For Condition B, we developed a dual-agent system modeled on a design studio, replacing the single agent with two distinct roles. The \emph{Explorer} is an ephemeral generation agent that spawns fresh for each run with no memory of prior rejections; its goal is pure novelty, proposing solutions based on identified gaps. The \emph{Taxonomist} is a persistent schema agent that maintains the long-term memory (a typed knowledge graph with seven node kinds and a \texttt{PARENT\_OF} hierarchy inside each type). The Taxonomist cannot generate solutions; it can only Accept, Reject, or Restructure.
+\section{Architecture of the Solution-Space Machine}
 
-The agents communicate via a strict negotiation loop. The Explorer proposes a solution with structured fields, which the Taxonomist evaluates against the existing hierarchy. Acceptance is embedding-gated: a proposed mechanism whose cosine similarity to an existing node exceeds 0.92 is Rejected as a near-duplicate, similarities between 0.75 and 0.92 trigger auto-linking to the most similar existing node, and similarities below 0.75 create a new node. Proposals may thus be Accepted (linked to existing nodes), Rejected with specific redirection (e.g., ``this is a variant of X; explore Y instead''), or trigger a \texttt{RESTRUCTURE\_GRAPH} transaction if the proposal reveals a gap in the ontology itself. We distinguish these two words carefully throughout: \emph{taxonomy} names the artifact---the typed, hierarchical graph as stored---while \emph{ontology} names what the Taxonomist does when it creates new root categories to accommodate solutions the existing categories cannot host. The artifact is strictly taxonomic; the restructuring behavior is ontological in the Piagetian sense of accommodation rather than assimilation. Unlike Semantic Tabu, which simply blocks paths, this Studio Model creates adversarial pressure for structural novelty. The Taxonomist's rejection serves as a forcing function for vertical movement in concept space when the Explorer defaults to horizontal variations. This dialectical tension produces solutions neither agent would generate in isolation. In the terminology of the companion architecture paper~\cite{westerberg2026fractal}, the Studio Model is an instance of the \emph{Solver contract}: two cognitively isolated Solvers---a generation Solver and a persistent curation Solver---meet at a typed acceptance gate where rejection compels structural reframing rather than token-level iteration.
+Open-ended solution search uses a branching-and-converging topology. World-diversity search branches over causal regimes; mechanism compilation converts the local solves into structured candidate interventions; a persistent ontology folds those candidates into shared control state; and progressive selection would narrow the population while protecting unusual mechanisms. This section defines the fan-out/fold-back architecture and its implementation scope.
 
-\subsection{Conditions C, D, and E: Seed-Based Inspiration}
+\subsection{A common design grammar: displacement, state, and context separation}
 
-Conditions C, D, and E introduce external inspiration. Condition C, \emph{Random Seed}, operationalizes Edward de Bono's lateral thinking technique \cite{debono1970} by using a random word to trigger associations. However, while human associations are idiosyncratic, LLM associations tend to draw on statistical averages of training data, trending toward the median. To counteract this, Conditions D and E combine seed inspiration with novelty enforcement. \emph{Condition D (Seed + Tabu)} applies the Semantic Tabu constraints to the seed-based generation, forcing the model to engage deeper with the seed's structure rather than its surface vocabulary. \emph{Condition E (Seed + Taxonomy)} gives the model access to the Solution Graph; the seed provides creative direction while the graph prevents convergence, ensuring that the lateral associations map to genuinely unexplored regions of the solution space.
+The workflows form a crossed design rather than one serial pipeline. They vary two search choices: what local source frame displaces the next proposal, and what representation of the candidate population constrains it. A third choice determines which information is isolated across roles. Context is reset or withheld where carryover could encourage convergence, while explicit banks and ontologies create deliberate dependence where cumulative coverage is needed.
 
-\subsection{Conditions F, G, and H: Orthogonal Insight Protocol}
+We call the shared role property \emph{bounded semantic autonomy}. A proposal role is instantiated fresh and receives named, inspectable premises, memory, process, and output constraints while retaining discretion over the substantive mechanism it constructs within them. Random Inspiration leaves one unrelated word open to interpretation as a metaphor, structure, process, or principle. Semantic Tabu supplies a negative boundary while leaving the proposer to infer the mechanisms represented by prior records and invent outside them. Ontology governance assigns persistent population memory, equivalence judgment, and category revision to a curator while preserving a separate proposal role. Orthogonal Insight partitions target-blind world construction, purpose-blind local solving, and purpose-aware compilation. Autonomy is therefore local semantic discretion within explicitly supplied state.
 
-The Orthogonal Insight protocol represents our most radical intervention. It constructs coherent alternative physics before problem-solving through a three-phase process. In the first phase, \emph{World-Building}, a seed word becomes a fundamental law of physics; the model constructs a coherent world where this property governs causality, value, and behavior, without knowing the problem it will eventually solve. In the second phase, \emph{Blind Solve}, a separate agent receives the world rules and the problem but critically does not know the original seed word and does not know it is in an experiment; it solves as if the world rules were absolute reality, preventing ``roleplaying'' creativity and forcing genuine constraint satisfaction. In the final phase, \emph{Extraction}, a third agent translates the alien solution back to reality through iterative steps: imagining implementation exactly as described, identifying ``magical'' elements that work only in alien physics, inventing technology or finding existing structures that approximate those elements, and crucially preserving what is strangest: the explicit instruction is ``don't sand it down to something familiar.''
+The nine-field candidate schema provides the common output contract. It requires every proposal to expose a label, design principles, core mechanism, operation, claimed difference, rationale, failure analysis, medium-term outlook, and long-term vision, while leaving the discovery path open. Functionally, Random Inspiration supplies departure; Semantic Tabu supplies negative memory; the ontology supplies structural cartography and commissioning; Orthogonal Insight supplies causal displacement; and the hybrid cells cross source displacement with population governance. In H, ontology governance begins during transfer and admission over a fixed upstream world population. Graph-directed world commissioning is a proposed extension.
 
-The power of this approach emerges from unexpected semantic leaps. Given the seed ``theatrical,'' the World-Builder produced physics governed by dramatic necessity: witnessed actions become real, tension accumulates and must discharge at moments of maximum impact, and the measure of commitment is the sincerity of public testimony rather than the quantity of accumulation. Rather than dressing a conventional solution in stage metaphors, the model constructed a causally coherent world where witnessing replaces verification and tension replaces market timing, yielding ``Witnessed Sacrifice Retirement,'' a system measuring proportional effort before community observers (Appendix~\ref{sec:appendix-traces}, Trace~A gives the full four-phase pipeline for this seed). Conditions G and H layer novelty enforcement onto extraction: Condition G applies Semantic Tabu to constrain which real-world mechanisms are available for translation, while Condition H uses the Solution Graph to reject extractions too similar to existing ones. Importantly, all three conditions share the same World-Builder and Solver outputs for each seed; the expensive three-phase process runs once, and novelty enforcement affects only extraction. This enables \textit{efficient ontology mining}, where a single alien world yields multiple diverse real-world mechanisms.
+\subsection{World-diversity search and the fan-out/fold-back loop}
 
-A concrete trace from Run~22 (Condition F, seed ``desperacy'') illustrates the full pipeline:
+World-diversity search deliberately relocates variation upstream of the answer. It constructs $K$ natural-language causal regimes in which conservation, agency, identity, scarcity, time, information, boundaries, or transformation may work differently, then solves the same target locally in each regime before a separate compiler sees the transfer task. The intended downstream yield is structurally displaced intervention mechanisms.
 
-\begin{center}
-\small
-\begin{tabular}{@{}p{3.2cm}p{10.5cm}@{}}
-\toprule
-\textbf{Phase} & \textbf{Content} \\
-\midrule
-1. Seed (random) & \texttt{desperacy} (drawn from the Unix system dictionary) \\[2pt]
-2. World rules & Desperate need is a fundamental force (Need-Gravity) that bends space and attracts resources; shared authentic need \emph{multiplies} the pull; life-force can be distributed across others' lifespans; irregular-income cycles are an advantage rather than a liability. \\[2pt]
-3. Blind solve (alien solution) & Resonance Pods: small groups whose shared visible need creates coordinated gravitational pull on collective resources when any member faces genuine crisis. \\[2pt]
-4. Extraction (reality mechanism) & Small intergenerational groups of 12--20 members with radical financial transparency at Dunbar scale; visible micro-bonds replace actuarial verification, variable good-month contributions create social bonds that activate coordinated response when elder members face hardship. Label: \emph{Resonance Pods: Variable-Bond Retirement}. \\
-\bottomrule
-\end{tabular}
-\end{center}
+Throughout, a \emph{world} is a generated natural-language source frame: a seed-derived root premise, a set of named consequences, and narrated implications for material processes, agency, identity, or social organization. The historical prompt called the seed a ``FUNDAMENTAL LAW of physics'' and instructed the Solver to treat the derived rules as operative. This wording functions as a binding instruction, not a scientific classification. Some artifacts resemble altered physical constraints---\emph{arcual} prohibits straight trajectories and \emph{displacement} pairs every motion with a counter-motion---whereas others literalize ontological or symbolic relations: \emph{theca} makes containment a condition of existence, \emph{phraseman} makes grammar causal, and \emph{theatrical} makes witnessed dramatic tension causal. We therefore analyze the outputs as \emph{causal regimes} or \emph{world-rule sets}. They are not mathematical physical theories, executable environments, or simulations; internal consistency was requested in the prompt but not independently verified.
 
-\noindent The reality mechanism is structurally unreachable from ``design a creative retirement system''---the median-path LLM does not invert the actuarial relationship between need and capital. The alien physics forces the inversion, which the Extraction Solver then translates into a real mechanism (Dunbar-scale visibility) that carries the same inversion without requiring the physics. For three additional end-to-end traces---theatrical, chalaco, and limelike---see Appendix~\ref{sec:appendix-traces}.
+The operative analogy is the \emph{Gedankenexperiment}. Einstein later recalled imagining pursuit of a light beam at $c$ and reasoning from the resulting standpoint, which he described as containing an early germ of special relativity~\cite{einstein1949autobiographical}. The premise was valuable as a perspective from which consequences and tensions became visible, not as an experiment one could physically perform. World-diversity search automates a population-level version of that move: a Builder stipulates a standpoint, a Solver reasons from inside it, and a compiler returns with an operative relation for the external problem. The analogy is methodological rather than evidentiary; generated worlds are not guaranteed to have the theoretical discipline or scientific value of a successful human thought experiment.
 
-\begin{table}[h]
+After compilation, each search item is stored as a structured intervention. In the Studio conditions, the complete nine-field record is retained as metadata on its \texttt{SOLUTION} node, while six fields are additionally indexed as typed facets: mechanism, outcome, design principle, criticism, justification, and claimed novelty. This makes the proposed causal structure available for comparison, criticism, and reorganization; downstream evidence is required for validation.
+
+The full machine turns one target into a governed population. World Builder and in-world Solver calls do not require sibling-branch context and can therefore run concurrently. State dependence begins at transfer: F's open compilers can also run concurrently, whereas G's Tabu bank and H's ontology make their downstream proposal paths sequential. After transfer, every branch has the same nine-field candidate form. The curator ontology can then convert the incoming stream into occupied mechanism families, underrepresented branches, and diagnostic redirections. Figure~\ref{fig:full-machine} separates the parallel front end, stateful fold-back, and proposed progressive evaluation.
+
+\begin{figure}[htbp]
 \centering
-\begin{tabular}{lllll}
-\toprule
-Condition & Inspiration & Novelty & Novelty applies to \\
-\midrule
-A: Semantic Tabu & None & Tabu list & Direct ideation \\
-B: Solution Taxonomy & None & Graph & Direct ideation \\
-C: Random Seed & Seed $\to$ assoc. & None & --- \\
-D: Seed + Tabu & Seed $\to$ assoc. & Tabu list & Direct ideation \\
-E: Seed + Taxonomy & Seed $\to$ assoc. & Graph & Direct ideation \\
-F: Orthogonal & Seed $\to$ physics & None & --- \\
-G: Orthogonal + Tabu & Seed $\to$ physics & Tabu list & Extraction only \\
-H: Orthogonal + Tax. & Seed $\to$ physics & Graph & Extraction only \\
-\bottomrule
-\end{tabular}
-\caption{Eight methods organized by inspiration source and novelty enforcement mechanism.}
-\label{tab:conditions}
-\end{table}
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  node distance=11mm and 10mm,
+  box/.style={draw, rounded corners, align=center, minimum height=15mm, text width=31mm},
+  prior/.style={box, fill=black!8},
+  current/.style={box, fill=blue!8},
+  proposed/.style={box, dashed, fill=black!1},
+  flow/.style={-{Latex[length=2mm]}, thick},
+  future/.style={-{Latex[length=2mm]}, thick, dashed},
+  note/.style={font=\scriptsize, align=center, fill=white, inner sep=1pt}
+]
+\node[prior] (seed) {Fixed distinct seeds\\$r_1,\ldots,r_K$};
+\node[prior, right=of seed] (world) {Parallel causal worlds\\$W_1,\ldots,W_K$};
+\node[prior, right=of world] (solve) {Parallel purpose-blind\\target-aware solves};
+\node[prior, right=of solve] (compile) {Transfer into a common\\candidate schema};
+\node[proposed, below=of world] (worldgraph) {World-population ontology\\and causal coverage};
+\node[current, below=of solve] (candidate) {Compiled candidate\\population $\{c_k\}$};
+\node[current, right=of candidate] (graph) {Curator-managed\\candidate ontology};
+\node[current, below=of graph] (explorer) {Fresh Explorer\\conditioned on graph state};
+\node[proposed, right=of graph] (select) {Progressive validation\\and alien-preserving\\selection};
+\draw[flow] (seed) -- (world);
+\draw[flow] (world) -- (solve);
+\draw[flow] (solve) -- (compile);
+\draw[future] (world) -- node[left,note]{compare regimes} (worldgraph);
+\draw[future] (worldgraph.west) to[out=180,in=-90] node[pos=.55,left,note]{commission gaps} (seed.south);
+\draw[flow] (compile) -- node[right,note]{bridge} (candidate);
+\draw[flow] (candidate) -- node[above,note]{curate} (graph);
+\draw[flow] (graph) -- node[right,note]{state or redirection} (explorer);
+\draw[flow] (explorer.west) to[out=180,in=-90] (candidate.south);
+\draw[future] (graph) -- (select);
+\end{tikzpicture}
+}
+\caption{Many-world fan-out and ontology fold-back. The released runner generated 25 target-independent worlds and corresponding in-world solutions in five batches with phase-level parallelism, then reused those upstream artifacts across F--H. F transfer remained parallel; G and H became sequential where their accumulated bank or ontology conditioned the next proposal. In H, proposals fold into a persistent curator-managed ontology that controls admission, retries, and later Explorer context. The dashed world-population ontology, graph-directed commissioning of new worlds, and downstream selection are proposed rather than executed.}
+\label{fig:full-machine}
+\end{figure}
 
-\subsection{Structured Output and Implementation}
+\subsection{Information isolation and mechanism compilation}
 
-All conditions use a structured JSON schema requiring nine fields: label, design principles, core mechanism, how it works, what is new, why it works, why it fails, medium-term outlook, and long-term vision. Two fields are particularly important for maintaining quality. The \texttt{what\_is\_new} field forces explicit differentiation; combined with tabu constraints, the model must simultaneously satisfy ``avoid these mechanisms'' and ``explain what is novel.'' The \texttt{why\_it\_fails} field forces immediate self-critique, preventing hand-wavy utopian proposals by requiring the model to attack its own idea, creating a quality filter within generation rather than after.
+The proposed shortcut can be expressed as a change in the conditional distribution over generated candidates. Direct prompting samples a candidate from $p_\theta(s\mid P)$, where the ordinary framing of problem $P$ makes familiar mechanisms highly probable. Orthogonal Insight repeats a staged transformation for branches $k=1,\ldots,K$:
 
-For reproducibility and inspection, we implemented a lightweight orchestration layer using OS-level primitives. Each agent operates in an isolated \texttt{tmux} session with reasoning traces captured via \texttt{script} logging. Agents communicate through file-system pipes and structured message passing, enabling inspection of the full negotiation stream. All execution occurs within a macOS kernel-level sandbox (\texttt{sandbox-exec}), strictly limiting file write access to the experiment directory. This architecture ensures that every agent decision is logged, every negotiation turn is recoverable, and the system can be paused, inspected, and resumed at any point. For this experiment, no human guidance was injected; all negotiation occurred autonomously between agents.
+\begin{equation}
+r_k\sim\pi,\qquad
+W_k\sim B(\cdot\mid r_k),\qquad
+a_k\sim S(\cdot\mid P,W_k),\qquad
+c_k\sim C(\cdot\mid W_k,a_k).
+\label{eq:world-fanout}
+\end{equation}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% RESULTS SECTION
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Here $B$ constructs a target-independent world, $S$ produces an in-world solution, and $C$ is the open Orthogonal Insight compiler. Equation~\ref{eq:world-fanout} describes the general operator and condition F; G and H replace $C$ with transfer processes conditioned by an accumulating bank or graph. World construction and solving can execute without sibling-branch context, so $K$ is a direct width control on the parallel front end. In the released run, $r_1,\ldots,r_{25}$ were a fixed ordered seed set; the exact historical sampling process is not reconstructed here. A mechanism that is improbable under ordinary premises can become locally obvious under some $W_k$: Chalaco's compulsory exchange makes access without accumulation an ordinary consequence rather than a request for imagination. The method changes premises until a strange mechanism becomes easy to reason about, then removes the fiction.
 
-\section{Results}
+The implementation uses staged information isolation. A World Builder receives a random seed but not the target problem and writes a counterfactual world-rule set. A fresh Solver receives those rules and the target, but not the experimental purpose or the later transfer task; it proposes an intervention while treating the stipulated rules as operative constraints. A fresh extractor receives the source world and its in-world solution and performs \emph{mechanism compilation}: it preserves a relational causal move while translating fictional entities into target-domain actors and operations~\cite{westerberg2025strangeworlds}.
 
-Across 196 completed solutions, every condition produced a distinct set of mechanisms---all 196 core mechanisms are textually non-overlapping---and the \emph{shape} of that distinctness varies sharply by architecture: the taxonomy-enforced conditions form cohesive internal clusters around shared abstractions, while the Orthogonal Insight conditions produce diffuse sets in which every alien world yields a mechanism roughly equidistant from every other.
+Orthogonal Insight adds mediation to the open-ended displacement used by Random Inspiration. A target-blind Builder first expands the seed into a coherent causal constraint; a target-aware Solver then reasons inside that constraint. This separates source-world construction from target-conditioned solving.
 
-\subsection{Quantitative Divergence and Constraint-Driven Exploration}
+Information is partitioned asymmetrically. The World Builder is \emph{target-blind}: it receives the seed but not the problem its world will later mediate. The in-world Solver is \emph{purpose-blind but target-aware}: it receives the target and world rules but is not told why the world was constructed or that a later agent will translate its answer into the target domain. The implemented worlds are textual causal thought experiments; executable simulation lies outside this implementation.
 
-To establish a baseline, we first prompted Claude Opus 4.5 to generate creative solutions without any structural intervention \cite{westerberg2025strangeworlds}. Across five independent sessions requesting five solutions each, all 25 solutions converged on five to six archetypes: windfall/surplus capture, mutual aid pools, time-banking, platform profit-sharing, and consumption-based triggers. Every session reproduced the same themes despite explicit instructions to ``think outside the box,'' confirming the Median Trap for this problem and model.
+The runner launched missing World Builders concurrently within each five-branch batch, followed by concurrent in-world Solvers and, in F, concurrent open compilers. The release therefore demonstrates automated multi-world execution at $K=25$.
 
-Our analysis of 196 completed solutions across eight conditions revealed a striking degree of cognitive segregation. No two conditions produced the same solution label, and all 196 core mechanism descriptions are textually non-overlapping at the string level. To guard against the critique that unique labels alone are a schema artifact, we embedded every core mechanism with the \texttt{all-MiniLM-L6-v2} sentence-transformer and computed, for each mechanism, its best-match cosine similarity within its own condition (excluding self) and its best-match similarity against each other condition. The mean within-condition similarity is 0.566, versus 0.512 between conditions---a 1.10$\times$ concentration effect on average, modest in absolute terms (as all outputs share the dense semantic baseline of the identical prompt) but legible in its distribution. Condition~E (Seed + Taxonomy) forms the tightest semantic cluster (ratio 1.23$\times$), followed by D (1.15$\times$) and B (1.12$\times$); the Orthogonal conditions F and G produce essentially diffuse sets (1.05$\times$ and 1.02$\times$), where within- and between-condition similarity are statistically indistinguishable. The diffuseness of the Orthogonal conditions is not a failure to cluster; it is the signature of each alien world yielding a mechanism unrelated to the others. Embeddings capture paraphrastic similarity a lexical analysis would miss, which makes the persistence of the E/D/B concentration under this stricter measure more informative: the framing method does not merely influence the flavor of the solution---it shapes both the centre and the spread of the solution space.
+This account predicts that, relative to a direct random-word cue or target-aware rule mutation, independently constructed worlds will increase the finite-budget rate of human-validated structural mechanism classes while preserving coherence. Testing that prediction requires matched-compute comparisons; the present artifacts establish the transformation itself rather than its causal advantage.
 
-\begin{table}[h]
-\centering
-\begin{tabular}{lrl}
-\toprule
-Condition & Solutions & Example Labels \\
-\midrule
-A: Semantic Tabu & 25 & Zero-Decision Volatility-Indexed, Deployability Dividend \\
-B: Solution Taxonomy & 23 & Counter-Cyclical Pool, Surge Solidarity Pools \\
-C: Random Seed & 25 & Dark Theater Fund, Rotation Compact \\
-D: Seed + Tabu & 25 & Standing Cast Retirement, Gyroscopic Precession \\
-E: Seed + Taxonomy & 25 & Patient Capital Pooling, Peer Witness Networks \\
-F: Orthogonal & 25 & Cryptographic Accretion Protocol, Witnessed Sacrifice \\
-G: Orthogonal + Tabu & 25 & Accretion Ledger, Testimony Accord \\
-H: Orthogonal + Tax. & 23 & Balance-Free Flow Rights, Witnessed Covenant \\
-\midrule
-\textbf{Total} & \textbf{196} & \textbf{196 distinct labels (some runs incomplete)} \\
-\bottomrule
-\end{tabular}
-\caption{Solution counts per condition. Taxonomy conditions (B, E, H) occasionally had runs that did not complete negotiation successfully.}
-\label{tab:solution-counts}
-\end{table}
+\subsection{The candidate ontology as active control state}
 
-In the absence of external inspiration, Condition A (Semantic Tabu) relied entirely on the pressure of accumulating constraints. Early runs produced conventional archetypes like Time-Banking or Windfall Capture, but by run 25, with twenty-four mechanisms explicitly blocked, the model was forced into genuinely novel territory. Having prohibited time-locking, labor futures, data monetization, and relationship liens, the model produced ``Deployability Dividend Retirement,'' a system where credits are generated not by working, but by the off-platform costs of staying deployable (certifications, vehicle maintenance), weighted inversely by deployment rate.
+The persistent object is an ontology of complete candidate interventions. A fresh \emph{Explorer} proposes a candidate; a recurring \emph{Taxonomist} context evaluates it against a graph with seven node kinds---the solution container plus the six indexed facet types. In the released \emph{Studio Model}, these nodes live in SQLite and \texttt{PARENT\_OF} edges organize hierarchies within a type. We call the resulting controller \emph{ontology-governed intervention search}.
 
-In contrast, Condition B (Solution Taxonomy) utilized graph-based visualization to identify structural gaps rather than simply blocking paths. This allowed for targeted exploration of unexplored conceptual regions. For instance, after fifteen solutions established mechanisms around monetary contributions and labor conversion, the agent identified a gap regarding reputation as an asset. It proposed ``Reputation Equity Retirement,'' transforming accumulated platform trust, quantified in ratings, into a transferable income source. Similarly, the agent identified that no solution combined personal autonomy with communal outcomes, leading to ``Surge Solidarity Pools,'' where workers set individual surge thresholds (e.g., beach workers in summer) but contribute windfalls above those thresholds to a shared pool.
+Each Explorer starts in a fresh context containing an explicit rendering of the graph. The Taxonomist owns admission and graph mutation. Local proposal generation is therefore separated from the durable state that judges and redirects it, while the graph makes later proposals intentionally dependent on the accumulated population.
 
-\subsection{Emergent Metacognition in the Studio Model}
+The controller executes the recurrent operation
 
-We use \emph{metacognition} in its functional sense: a system's capacity to monitor and restructure its own cognitive products. Under the compositional view of intelligence developed in~\cite{westerberg2026fractal}, the Studio Model is one intelligence distributed across Explorer and Taxonomist---the Explorer's generation is the object-level, and the Taxonomist's graph together with its operations on it is the meta-level. The behaviors described below are metacognition of that compositional intelligence, not analogy to it. A reader who does not accept the compositional view may read the same claim as ``metacognition-like behavior,'' which the empirical content supports equally well; the difference is philosophical framing, not observation.
+\begin{equation}
+\begin{aligned}
+(P,G_t)&\xrightarrow{\text{graph-conditioned proposer}}s_t
+\xrightarrow{\text{curator}}a_t=(d_t,R_t)\longrightarrow G_{t+1},\\
+d_t&\in\{\text{accept},\text{reject+redirect}\},
+\qquad R_t\in\mathcal{R}^{*}.
+\end{aligned}
+\label{eq:problem-machine}
+\end{equation}
 
-The Studio Model's most powerful emergent property is \emph{active commissioning}: the Taxonomist does not merely reject proposals but issues research directives that force the Explorer into new search spaces. For example, in Run 10 (Condition E, seed: ``theatrical''), the Explorer's first proposal was rejected as excessively tech-heavy, with the Taxonomist issuing a specific redirection toward pre-industrial mechanisms: ``Rotating feast obligations, skill guilds, survivor tontines, seasonal labor exchange. How did pre-industrial communities provide retirement security for members with inconsistent contributions?'' The Explorer internalized the directive, noting: ``The Taxonomist has given feedback indicating they want more NON-MONETARY, NON-TECH mechanisms,'' and pivoted to ``Benefit Night Labor Troupes,'' a solution based on theatrical ensemble obligations. This demonstrates \emph{directed discovery}: by blocking the ``easy'' technological interpretation, the Taxonomist forced the discovery of a fundamentally different solution space that would not have emerged from unconstrained generation.
+Here $P$ is the external problem, $G_t$ is the current candidate ontology, $s_t$ is a structured intervention, $d_t$ is the admission decision, and $R_t$ is a possibly empty sequence of category changes. A rejection can include diagnostic direction for a retry, and category changes may accompany either admission decision. Persistence resides in $G_t$, rather than in uninterrupted proposer or curator context. The map makes occupied and underrepresented branches available to subsequent generation as search hypotheses whose value requires downstream evaluation.
 
-Furthermore, the Taxonomist explicitly teaches the distinction between \textit{surface features} and \textit{deep structure}, a behavior we term \emph{structural coaching}. In Run 20 (seed: ``paranucleic''), the Explorer proposed ``Paranucleic Savings Satellites,'' tracking spending rather than income. The Taxonomist rejected this as a ``detection method variant,'' stating: ``The test: Does changing the INPUT SIGNAL change the STRUCTURAL CATEGORY? No.'' It then offered four specific paths to novelty, leading the Explorer to generate ``Consumption-Mirrored Ownership Routing,'' which the Taxonomist validated as genuinely novel because the routing mechanism itself had changed, not just the trigger.
+\subsection{Implementation scope}
 
-When proposals revealed inadequacies in the taxonomy itself, the system demonstrated \emph{ontological accommodation}: changing its mental model to fit new data. In Run 16 of Condition H (seed: ``arcual''), the Explorer proposed an ``Earning Pattern Compliance System'' that measured compliance against personal patterns rather than universal schedules. Recognizing that this neither accepted nor eliminated inconsistency but reframed it, the Taxonomist executed a restructuring operation to create a new root category: ``Reframe Inconsistency.'' This represented an ontological expansion, acknowledging that the worker was not inconsistent, but rather ``consistent to a different rhythm'' than previously measured.
+The program combines three layers. The 8 December 2025 Strange Worlds release introduced world construction, local solving, mechanism compilation, the scaled generation--selection vision, and Alien Preservation~\cite{westerberg2025strangeworlds}. This paper implements ontology-governed admission and redirection over the \emph{compiled candidate population}. Progressive validation, recursive Solver decomposition, and ontology-guided control over the \emph{world population} remain proposed~\cite{westerberg2026fractal}.
 
-Constraint pressure also drove the system toward novel combinations. In Run 24 of Condition B, the Explorer observed that all previous 23 solutions assumed High Income leads to Savings. It proposed inverting this flow with the ``Counter-Cyclical Retirement Pool,'' where the pool contributes to the worker during low periods, and the worker contributes to the pool during high periods. The Taxonomist noted the key insight: ``Workers with wildest volatility become best savers.'' This is antifragile in Taleb's sense \cite{taleb2012}: the system gains from volatility rather than being harmed by it. The specific combination of antifragility with gig-worker retirement does not exist in the training data; it was synthesized under constraint pressure when 23 conventional approaches had been exhausted.
+\section{Study Design and Methods}
 
-Finally, the architecture exhibited \emph{agentic self-repair}. In Run 12 of Condition B, a complex restructure transaction failed because the \texttt{temp\_id} references could not be resolved. Instead of crashing, the agent diagnosed the mismatch and autonomously formulated a corrective plan: ``The restructure command seems to have an issue with temp\_ids. Let me try a different approach---create the node first, then link it.'' This self-debugging capability suggests that the Studio Model possesses a degree of resilience impossible in single-shot generation paradigms.
+The study varies two explicit inputs to a fresh proposal role: the local source frame that displaces what can be made coherent, and the population state that constrains what later proposals should repeat, avoid, or add. It holds one open problem constant while crossing those two axes.
 
-\subsection{Comparative Dynamics: Same Seed, Different Worlds}
+\subsection{Task and workflow matrix}
 
-By tracking specific seed words across conditions, we observe how different architectures activate different semantic associations. Condition C (Random Seed) often resulted in vocabulary transfer or loose analogy; for the seed ``theatrical,'' it produced the ``Dark Theater Fund,'' essentially a conventional income-smoothing fund dressed in stage metaphors. In contrast, Condition D (Seed + Tabu), blocked from conventional mechanisms, searched for structural analogies. Using the same ``theatrical'' seed, it produced ``Standing Cast Retirement,'' based on the insight that theaters pay understudies for readiness rather than performance. This reveals a consistent template in the tabu-constrained conditions: the discovery of hidden labor or value that exists but is currently uncompensated.
+All eight workflows attacked the same open-ended problem: ``How do we build a retirement system for people who don't know how much they will earn next month, where `consistency' is impossible?'' The prompt supplies no enumerable answer class, executable interface, or scalar objective. The matrix holds that target constant while varying the source of displacement---none, a random word, or a counterfactual world---and the population controller---none, Semantic Tabu, or graph curation (Table~\ref{tab:design}). Twenty-five positions were planned for each executed cell, giving 200 planned slots; the target-only/no-control cell was not run.
 
-The Orthogonal Insight protocol (Condition F) and its constrained variants (G, H) extract ontological principles rather than metaphors. Given the seed ``theca'' (a protective sheath), the shared world-building phase constructed a physics where nested walls make objects ``more real.'' Condition G (Worlds + Tabu), constrained to avoid prior extraction mechanisms, translated this into the ``Depth-Guarantee Stability Fund,'' which utilizes nested institutional guarantees. Meanwhile, Condition H (Worlds + Taxonomy), constrained by the graph to find novel utility, interpreted ``limelike'' (calcite transformation) as ``Irrevocable Accretion Contracts'' where money ``calcifies'' and cannot be withdrawn, solving the liquidity preference problem through physical constraint (see Appendix~\ref{sec:appendix-traces}, Trace~C).
-
-The divergence is most visible when comparing the same seed across all methods. As shown in Tables~\ref{tab:theatrical-comparison}, \ref{tab:chalaco-comparison}, and \ref{tab:theca-comparison}, the constraint architecture determines the transfer type.
-
-\begin{table}[h]
-\centering
-\begin{tabular}{lll}
-\toprule
-Condition & Solution (seed: ``theatrical'') & Transfer type \\
-\midrule
-C (Seed) & The Dark Theater Fund & Vocabulary \\
-D (Seed + Tabu) & Standing Cast Retirement & Mechanism \\
-E (Seed + Taxonomy) & Benefit Night Labor Troupes & Mechanism (graph-guided) \\
-F (Orthogonal) & Witnessed Sacrifice Retirement & Ontology (partial) \\
-G (Orthogonal + Tabu) & Testimony Accord & Ontology (constrained) \\
-H (Orthogonal + Tax.) & Witnessed Covenant Mutual Obligation & Ontology (graph-guided) \\
-\bottomrule
-\end{tabular}
-\caption{Same seed produces different transfer types across methods.}
-\label{tab:theatrical-comparison}
-\end{table}
-
-\begin{table}[h]
-\centering
-\begin{tabular}{lll}
-\toprule
-Condition & Solution (seed: ``chalaco'') & Core insight \\
-\midrule
-C (Seed) & Wake Drift Retirement & Save via spending \\
-D (Seed + Tabu) & Tonnage Passage Retirement & Throughput $\gg$ wages \\
-E (Seed + Taxonomy) & Tidal Retirement Harbors & Phase-matched pooling \\
-F (Orthogonal) & Weave Collectives: Presence-Based Security & Presence, not amount \\
-G (Orthogonal + Tabu) & Triadic Trust Tenure & Elders as infrastructure \\
-H (Orthogonal + Tax.) & Balance-Free Flow Rights & Duration, not amount \\
-\bottomrule
-\end{tabular}
-\caption{Same seed (``chalaco,'' an obscure demonym for a resident of Callao, Peru's principal port) produces qualitatively different insights across methods: seed-based conditions drew on maritime and tidal associations; the orthogonal conditions extracted presence- and duration-based economic structures from the Pacific-port semantic field. See Appendix~\ref{sec:appendix-traces}, Trace~B for the full chalaco pipeline.}
-\label{tab:chalaco-comparison}
-\end{table}
-
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \small
-\begin{tabular}{lll}
+\begin{tabular}{lccc}
 \toprule
-Condition & Solution (seed: ``theca'') & Structural Pivot \\
+\textbf{Local source frame} & \textbf{No population state} & \textbf{Flat exclusion state} & \textbf{Curator graph state} \\
 \midrule
-C (Seed) & Natal Security Debt with Adaptive Servicing & \textbf{Time}: Invert timeline (payback vs save) \\
-G (Worlds+Tabu) & Depth-Guarantee Stability Fund & \textbf{Structure}: Nested layers (insurance depth) \\
-H (Worlds+Tax) & Containment Trust with Survival Benefits & \textbf{Utility}: Survival (now) vs Accumulation (later) \\
-E (Seed+Tax) & Economic Presence Theca & \textbf{Metric}: Frequency (count) vs Magnitude (amount) \\
+Target only & Not run & A: Semantic Tabu & B: Studio Model \\
+Target + unrelated cue & C: Random Inspiration & D: Cue + Tabu & E: Cue + Studio \\
+World + in-world solve & F: Orthogonal & G: Orthogonal + Tabu & H: Orthogonal + Studio \\
 \bottomrule
 \end{tabular}
-\caption{Divergent Evolution: The same seed produces orthogonally different structural mechanisms depending on the constraint architecture.}
-\label{tab:theca-comparison}
+\caption{The $3\times3$-minus-one design crosses increasing structure in the local source frame with increasing structure in externalized population state. Proposal calls or Explorer contexts are fresh; where memory exists, it is supplied through a bank or graph. The ordering describes protocol structure rather than expected performance.}
+\label{tab:design}
 \end{table}
 
-Structurally, we observe that novelty enforcement improves engagement depth; without it, models reach for the nearest conventional solution dressed in seed vocabulary.
+Each cell is one path-dependent search trajectory. Tabu banks and graphs accumulate prior outputs, all cued conditions reuse the same ordered seeds, and F--H also reuse upstream worlds and alien solutions. The matrix therefore supports same-input process comparisons rather than factorial causal estimates or 25 independent replications.
 
-Finally, the inspiration source profoundly shapes the topology of the resulting solution graph. Although Conditions B, E, and H all used the same graph-based enforcement, they evolved distinct shapes, confirmed quantitatively by root count, maximum depth, and average branching factor (Table~\ref{tab:graph-stats}). Condition B (Pure Taxonomy) climbed vertically, developing 10 independent root categories around abstract value types, shallow in depth (max depth 2) and low in branching (1.92). Condition E (Seed + Taxonomy) spread laterally, organizing 49 mechanisms around a dominant root with the deepest tree of the three conditions (max depth 3) and moderate branching (2.00). Condition H (Worlds + Taxonomy) organized around \textit{epistemological stances}, with 9 of 10 roots following an ``$X$ Inconsistency'' pattern (Accept, Eliminate, Leverage, Obscure, Validate, Distribute, Transform, Reframe, Dissolve) and the highest branching factor (2.18) but shallow depth (2).
+\subsection{Executed proposal and control paths}
 
-\begin{table}[h]
+The rows increase source-frame structure. In C--E, a random word is a deliberately open associational cue: the prompt says not to force a literal connection and permits any metaphor, structure, process, or principle~\cite{debono1970}. No intermediate semantic mapping is prescribed; only the completed nine-field candidate is structured. In F--H, the cue has already been expanded by a target-blind Builder into a complete world, and the local Solver output becomes part of the transfer constraint. The columns increase population-state structure. A Tabu bank tells a fresh call which structural approaches to avoid; the Studio graph shows a fresh Explorer occupied and underrepresented branches while a separate Taxonomist controls admission and category change. H combines the world-and-solution frame with graph state in one Explorer--Taxonomist transfer path. Because F--H share the complete upstream artifact, their first point of divergence is transfer.
+
+The source population comprised 25 automatically generated world/Solver pairs from a fixed ordered seed list. The runner processed five branches per batch, with five World Builder calls concurrent within their phase and five Solver calls concurrent within the next phase. Each upstream pair was then reused across F, G, and H.
+
+Semantic Tabu turns the accumulated archive into an exclusion prompt. Each fresh, one-turn call receives all prior structured records as JSON, reviews and lists their stated core mechanisms, declares which broader structural approaches it will avoid, and generates a new candidate. It externalizes memory but not its interpretation: every new call must infer a broader mechanism partition again from raw prior records. The method is a mechanism-level, full-record refinement of cumulative technique exclusion~\cite{lu2025}. Its implementation operates entirely through prompt context, without a semantic index, equivalence verifier, or programmatic avoidance check.
+
+The Studio conditions execute the paper's central controller loop. A fresh Explorer receives the current graph state and is prompted to target an underrepresented direction; a Taxonomist role assigned to curation rather than initial proposal generation may accept, reject with mechanism-level redirection, and optionally restructure the ontology. Where Tabu externalizes raw memory, the ontology externalizes both memory and a revisable interpretation of that memory. Taxonomist sessions could restart between or within batches; the SQLite graph provided cross-batch persistence. For accepted graph candidates, each indexed field links to the closest existing node at cosine similarity $\geq0.75$ or creates a new node. Curation was qualitative; no automated similarity-rejection decision was observed in the released run.
+
+\subsection{Corpus and descriptive analysis}
+
+Runs occurred on 13--14 December 2025 with the runner configured for Claude Opus~4.5. Canonicalization recovers 196 candidate records: 125 retained top-level outputs in A, C, D, F, and G, plus 71 curator-accepted \texttt{SOLUTION} nodes in B, E, and H. Of the 200 run-capture files, 168 are strict JSON. The other 32 are graph-condition captures whose stored negotiation text contains unescaped model-generated JSON; for B, E, and H, the committed SQLite databases are authoritative for accepted candidates. One accepted B candidate appears only in its database. The resolved checkpoint and sampling configuration cannot be reconstructed exactly.
+
+Exact uniqueness counts compare stripped label strings and core-mechanism strings. To describe whether a candidate lies closer to another item in its own workflow than to its nearest matches elsewhere, each core mechanism was embedded with a pinned revision of \texttt{sentence-transformers/all-MiniLM-L6-v2} using L2-normalized vectors~\cite{reimers2019sbert,sentenceTransformersMiniLM}. For solution $i$ in condition $c_i$, we compute
+
+\begin{equation}
+w_i=\max_{j\neq i,\,c_j=c_i} x_i^\top x_j,
+\qquad
+b_i=\frac{1}{7}\sum_{d\neq c_i}\max_{j:\,c_j=d}x_i^\top x_j.
+\label{eq:embedding}
+\end{equation}
+
+Here $w_i$ measures the closest other item in the same condition, while $b_i$ averages the closest match found separately in each other condition. We report their means and ratio only as wording-sensitive descriptors; no uncertainty or causal interpretation is attached to these dependent outputs.
+
+For each graph, we summarize the \texttt{MECHANISM} hierarchy by root count, maximum \texttt{PARENT\_OF} depth, and mean child count among non-leaf nodes.
+
+The world-diversity audit is separate from the candidate-level embedding analysis. It verifies exact-file hashes for all world and Solver artifacts, extracts the five model-labeled rules in each world, and normalizes their titles by removing an initial artifact formula such as ``Law of,'' lower-casing, and removing punctuation. To make the source population legible, we also assign each world's primary causal premise to one of five broad, post-hoc author categories; these are interpretive groupings, not discovered natural kinds. Finally, a dependency-free word-TF--IDF diagnostic represents each C, F, or G candidate by its label, design principles, core mechanism, and operation. Each two-condition comparison fits a separate 50-document vocabulary using raw term counts, smoothed inverse document frequency, and L2 normalization. For F--G, it compares candidates compiled from the same upstream world-and-Solver pair with all mismatched-source pairs. A parallel C--F comparison asks whether seed identity alone leaves a comparable paired lexical signature.
+
+A post-hoc trace census codes several preconditioning events. For each of the 25 world/Solver pairs, \emph{bottleneck relief} is clear when a stipulated world rule makes at least one target-relevant function---such as attribution, locking, allocation, forecasting, return, eligibility, or provision---automatic, impossible, or trivial by assumption. It is partial when the premise materially eases or reframes the function without supplying it cleanly. \emph{Downstream architecture} requires the Solver to add at least two elements among named actors, a multi-stage lifecycle, allocation or eligibility logic, and governance or failure handling. We also distinguish capabilities stated directly in the world from mixed or Solver-amplified claims, and flag cases in which the fictional operation asserts the desired endpoint rather than an upstream capability.
+
+For A, D, and G, a history-bearing call is one after the first position; archive uptake requires one identifiable mechanism summary per earlier candidate plus an explicit exclusion plan. For B, E, and H, a hard redirect requires structural-equivalence rejection, diagnostic direction, a retry that changes the primary causal operator, and eventual admission. A non-leaf mechanism category is counted as later-visible when its short title stem---the text before an explanatory dash or colon, with terminal wrapping normalized---recurs in a later Explorer-side capture. The coding is unblinded, post-hoc, and not independently replicated; coding definitions and a summary ledger are released in \texttt{analysis/trace\_coding.md}.
+
+\section{Results: Search-State Changes in the Released Artifacts}
+
+The released artifacts document a branching front end and a stateful convergence point. Twenty-five world branches instantiate automated fan-out; later traces record ontology state being supplied to subsequent proposers and curator-authored category changes being persisted for later calls. The 196 canonical records establish workflow coverage; the following results make both information flows inspectable.
+
+\subsection{Automated fan-out across 25 causal worlds}
+
+Before transfer into a target-domain candidate schema, the runner created one stored world and one stored in-world solution for each of the 25 ordered seeds. All 25 world files and all 25 Solver files are nonidentical under exact-file comparison. The prompt requested three to five named rules; every World Builder produced five, giving 125 rule instances with 123 distinct normalized titles. These counts measure artifact structure and naming variation, not physical or causal independence. No person selected a promising world before the solve stage; every branch was carried forward and reused across F--H.
+
+The two world codes answer different questions. Bottleneck relief describes how much target-relevant work the stipulated premise supplied: 17 branches were coded clear and eight partial. Downstream architecture asks whether the Solver still had design work to do: all 25 outputs contained at least two operational elements beyond the premise. Relief was not uniformly disciplined, however; on the separate final-outcome-fiat test, 14 passed, eight were borderline, and three failed by asserting the desired endpoint too directly.
+
+Table~\ref{tab:world-families} makes the breadth concrete. The worlds span causal premises involving irreversible material joins, compulsory exchange, relational boundaries, rotational geometry, witnessed action, grammar, need, and other regimes. Their compiled mechanisms likewise range from hard time locks and automatic effort credits to presence-based resource rights and witnessed contribution claims.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{40mm}c>{\raggedright\arraybackslash}p{37mm}X}
+\toprule
+\textbf{Primary causal family} & \textbf{$n$} & \textbf{Representative world premise} & \textbf{Representative F compilation} \\
+\midrule
+Material transformation, persistence, or enclosure & 7 & \emph{limelike}: unlike matter fuses irreversibly & Cryptographic time locks make each contribution inaccessible before retirement. \\
+Flow, exchange, or gradients & 6 & \emph{chalaco}: properties circulate every 4.7 seconds & Long participation earns presence-based claims on a continuing resource flow. \\
+Relational or topological causation & 3 & \emph{paranucleic}: boundaries determine what an interior can be & Security depends on embeddedness in reciprocal care relations rather than one balance. \\
+Motion geometry as existence & 3 & \emph{arcual}: all trajectories curve and tend toward return & Retirement tracks lifetime trajectory capture rather than monthly timing. \\
+Symbolic, social, or mental causation & 6 & \emph{theatrical}: witnessed acts acquire causal force & Publicly witnessed sacrifice ratios create claims on pooled resources. \\
+\bottomrule
+\end{tabularx}
+\caption{A post-hoc author grouping of the 25 released source worlds. Counts describe one interpretation of each primary premise; they do not establish exhaustive or objectively independent world categories.}
+\label{tab:world-families}
+\end{table}
+
+The common source left a detectable downstream signature. F and G candidates compiled from the same world-and-Solver pair had mean word-TF--IDF similarity $0.189$, compared with $0.067$ across mismatched source pairs, a ratio of 2.83. By contrast, direct random-word C and world-mediated F candidates sharing a seed were no more similar than mismatched seeds ($0.076$ versus $0.075$). This is consistent with the shared world-and-Solver source leaving a larger lexical imprint than seed identity alone; it is not evidence that the resulting mechanisms are causally distinct, creative, or useful.
+
+The same audit also exposes convergence. Several worlds occupy overlapping families, and radically different premises can compile back into hard commitments, pooling, automatic capture, participation-based claims, or social witnessing. The release establishes automated world generation at width 25; causal-space coverage, marginal mechanism yield, and selection efficiency remain open evaluation targets.
+
+\subsection{When the ontology changes the next proposal}
+
+Run E20 makes population control visible. With nineteen accepted candidates already represented, the Explorer proposed \emph{Paranucleic Savings Satellites}: monitor personal spending rather than income, infer capacity, and trigger retirement contributions. The Taxonomist classified the proposal as the already occupied pattern ``individual monitoring $\rightarrow$ automated trigger'' and explicitly tested whether changing the input signal changed the structural category. The rejection then commissioned four alternatives: redistribute value to others, operate only on aggregate signals, route ownership by purchase category, or invert the trigger.
+
+The Explorer chose category-directed routing and returned \emph{Consumption-Mirrored Ownership Routing}. Instead of estimating saving capacity, purchase categories routed flat micro-contributions to sectoral equity---groceries to food, rideshares to transport. The Taxonomist accepted the path after comparing it with existing asset-transmutation mechanisms because its operating relation had changed from detection to routing. Thus, graph categories supported equivalence judgment, targeted commissioning, and mechanism revision. Some retries selected Taxonomist-named alternatives, demonstrating responsiveness to redirection rather than independent discovery.
+
+Run H16 shows the complementary operation. \emph{Earning Pattern Compliance System} measured contributions against a worker's personal earning cycle rather than a universal schedule. The Taxonomist judged that the proposal did not fit its existing top-level stances toward inconsistency---accept, eliminate, leverage, obscure, validate, distribute, or transform. It created a new mechanism root, \emph{Reframe Inconsistency}, for the claim that apparent irregularity may be ``consistency to a different rhythm,'' and then added the candidate. That distinction became part of the graph presented to later Explorers.
+
+E10 shows a third control path. The Explorer's cue-triggered payment proposal renamed an occupied real-time income-detection mechanism. The curator rejected it and commissioned a design with no automated detection, payment processor, or digital infrastructure. The retry produced \emph{Benefit Night Labor Troupes}: labor obligations flow to an ensemble rather than accumulating as individually tracked monetary contributions.
+The selected sequences sit within the broader trace census in Table~\ref{tab:preconditioning-census}. The table keeps unlike denominators separate: a world/Solver branch, a history-bearing Tabu call, a planned graph position, and a non-leaf mechanism category are different observational units.
+
+\begin{table}[htbp]
+\centering
+\scriptsize
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{43mm}>{\raggedright\arraybackslash}p{29mm}>{\raggedright\arraybackslash}p{22mm}X}
+\toprule
+\textbf{Trace phenomenon} & \textbf{Applicable unit} & \textbf{Observed} & \textbf{Descriptive interpretation} \\
+\midrule
+World premise removes or materially eases a target bottleneck & 25 world/Solver branches & 17 clear; 8 partial & Under the rubric, all 25 branches were coded clear or partial; relief strength remains interpretive. \\
+Solver adds multi-component structure downstream of the premise & 25 world/Solver branches & 25/25 & All 25 outputs were coded as containing at least two downstream architectural elements. \\
+Capability provenance in the stored world & 25 world/Solver branches & 8 direct; 14 mixed; 3 amplified & Fourteen mixed an explicit world capability with Solver extrapolation; three depended primarily on the latter. \\
+Final-outcome fiat & 25 world/Solver branches & 14 pass; 8 borderline; 3 fail & Three Solver derivations asserted the endpoint directly; eight were coded borderline. \\
+Archive inventory plus explicit structural-exclusion plan & 72 history-bearing calls (24 each in A, D, and G) & 72/72 & All eligible traces restated prior mechanisms and declared exclusions; semantic non-equivalence remains untested. \\
+Structural rejection $\rightarrow$ diagnostic direction $\rightarrow$ mechanism-changing retry & 75 planned graph positions; 71 admissions & 7 complete chains & Seven admitted retries met the full criterion; the graph's causal contribution is not isolated. \\
+Non-leaf mechanism category named again later & 46 final non-leaf categories & 40/46 & Most category vocabulary remained visible to a later Explorer; causal use is not isolated. \\
+\bottomrule
+\end{tabularx}
+\caption{Post-hoc census of trace-level preconditioning phenomena. Counts are descriptive readings of stored artifacts, not independent creativity or quality judgments.}
+\label{tab:preconditioning-census}
+\end{table}
+
+The 72 eligible Tabu calls were the 24 post-first positions in each of A, D, and G. Together, they restated earlier candidates 900 times, counting repeated exposure across calls, and every call declared an exclusion plan. In 18 calls, the number of prohibition bullets was smaller than the number of prior records; this may reflect grouping or omission, neither of which was semantically evaluated.
+
+Across traces for 75 planned graph positions, seven complete hard-redirect chains ended in canonical admission. The other 64 of 71 admissions did not contain a complete chain in the bounded captures, and the four no-admission wrappers were not separate semantic rejections. Forty of 46 non-leaf mechanism-category titles recur in a later Explorer-side capture, showing durable availability rather than causal use. Five additional curator directions match later admissions, but asynchronous pane capture prevents clean before/after attribution. A causal creativity comparison would require shuffled-archive, fixed-taxonomy, and matched single-agent controls.
+
+\subsection{When an alien world makes another mechanism ordinary}
+\label{sec:alien-world-mechanism}
+
+Chalaco illustrates the complete staged source-to-target transformation. Every property flows to a neighboring entity after roughly 4.7 seconds, isolation is lethal, and only exchange patterns can persist. The Solver therefore calls saving a category error and derives pattern rights from long participation in intergenerational exchange knots. F's direct bridge compiles this into \emph{Weave Collectives: Presence-Based Security}: small groups in which continued participation earns non-transferable claims on housing, care, food, and governance.
+
+A matched-source pair from the first run shows that the same operator can also converge. In the \emph{limelike} world, deposited matter accretes irreversibly and cannot be separated before a life-stage trigger. F compiles the shared world and alien solution into \emph{Cryptographic Accretion Protocol}; H compiles them into \emph{Irrevocable Accretion Contracts}. Both use time-locked contracts to make early withdrawal structurally impossible. Because H's graph was empty for its first proposal, no occupied family was available for redirection. The pair therefore illustrates a boundary case for the controller.
+
+These traces concern mechanism formation. Whether the policies work, and whether matched direct prompting reaches the same mechanisms, remain open evaluation questions. The \emph{desperacy} trace supplies a second inversion---income volatility changes from a savings liability into a coordination credential---and Appendix~\ref{sec:appendix-traces} follows its world rule, \emph{Resonance Banking}, and extracted \emph{Resonance Pods}.
+
+\subsection{One seed, six search trajectories}
+
+Holding the cue \emph{theatrical} fixed did not produce a common mechanism. Six workflows retained traces of theatrical language while routing it toward intervention structures ranging from crisis-fund balances to witnessed reciprocal obligations (Table~\ref{tab:theatrical}).
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{l>{\raggedright\arraybackslash}p{37mm}X}
+\toprule
+\textbf{Condition} & \textbf{Generated label} & \textbf{Mechanism emphasis} \\
+\midrule
+C & The Dark Theater Fund & A working-life crisis fund whose unused balance later becomes retirement income. \\
+D & Standing Cast Retirement & Platforms fund maintained labor readiness, including periods without deployment. \\
+E & Benefit Night Labor Troupes & Members owe benefit labor to a troupe that later supplies care and maintenance. \\
+F & Witnessed Sacrifice Retirement & Claims depend on contribution as a share of current income, combined with public witnessing. \\
+G & Testimony Accord & Recorded testimony and hardship context weight contribution claims. \\
+H & Witnessed Covenant Mutual Obligation & Witnesses stake reputation and acquire reciprocal support obligations. \\
+\bottomrule
+\end{tabularx}
+\caption{Six routes from the same released seed. Mechanism emphases are author summaries; functional distinctness was not independently coded.}
+\label{tab:theatrical}
+\end{table}
+
+\subsection{Corpus-scale distinctness---and its limit}
+
+Exact-string uniqueness was complete, but semantic separation was modest. All 196 labels and core-mechanism strings were unique under exact comparison; mean closest-match similarity was $0.563$ within conditions and $0.514$ across conditions, a ratio of 1.10 (Table~\ref{tab:embedding-results}). D and E had the largest ratios, while F and G were closest to parity. These diagnostics rule out literal duplication, not functional equivalence, and may reflect condition-specific wording as readily as mechanism concentration.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Condition} & \textbf{$n$} & \textbf{Within $\bar{w}$} & \textbf{Between $\bar{b}$} & \textbf{Ratio} \\
+\midrule
+A: Semantic Tabu       & 25 & 0.573 & 0.527 & 1.09 \\
+B: Studio Model        & 23 & 0.585 & 0.521 & 1.12 \\
+C: Random Seed         & 25 & 0.575 & 0.537 & 1.07 \\
+D: Seed + Tabu         & 25 & 0.656 & 0.569 & 1.15 \\
+E: Seed + Studio       & 25 & 0.566 & 0.484 & 1.17 \\
+F: Orthogonal          & 25 & 0.524 & 0.499 & 1.05 \\
+G: Orthogonal + Tabu   & 25 & 0.496 & 0.486 & 1.02 \\
+H: Orthogonal + Studio & 23 & 0.532 & 0.484 & 1.10 \\
+\midrule
+\textbf{All records}   & \textbf{196} & \textbf{0.563} & \textbf{0.514} & \textbf{1.10} \\
+\bottomrule
+\end{tabular}
+\caption{Best-match cosine similarities under Equation~\ref{eq:embedding}. No uncertainty estimate or causal interpretation is attached to these dependent outputs.}
+\label{tab:embedding-results}
+\end{table}
+
+\subsection{The final candidate ontologies}
+
+Three sequential searches produced visibly different mechanism hierarchies. E created 49 mechanism nodes---40\% more than B---and reached depth 3; B and H each ended with 10 roots, while H had the highest mean branching. None of the final graphs contains dangling edges, cycles, or mechanism nodes with multiple parents (Table~\ref{tab:graph-stats}).
+
+\begin{table}[htbp]
 \centering
 \small
 \begin{tabular}{lrrrrrr}
 \toprule
-Condition & Solutions & Mechanisms & Roots & Max depth & Branching & Total nodes \\
+\textbf{Condition} & \textbf{Solutions} & \textbf{Mechanisms} & \textbf{Roots} & \textbf{Depth} & \textbf{Branching} & \textbf{All nodes} \\
 \midrule
-B (Taxonomy)          & 23 & 35 & 10 & 2 & 1.92 & 167 \\
-E (Seed + Taxonomy)   & 25 & 49 &  5 & 3 & 2.00 & 197 \\
-H (Worlds + Taxonomy) & 23 & 34 & 10 & 2 & 2.18 & 169 \\
+B: Studio Model        & 23 & 35 & 10 & 2 & 1.92 & 167 \\
+E: Seed + Studio       & 25 & 49 &  5 & 3 & 2.00 & 197 \\
+H: Orthogonal + Studio & 23 & 34 & 10 & 2 & 2.18 & 169 \\
 \bottomrule
 \end{tabular}
-\caption{Final graph statistics for taxonomy conditions. \emph{Roots}, \emph{Max depth}, and \emph{Branching} are computed over \texttt{MECHANISM} nodes joined by \texttt{PARENT\_OF} edges; branching is the average number of children per non-leaf node. ``Total Nodes'' counts all seven node kinds in the graph---solutions, mechanisms, outcomes, principles, criticisms, justifications, novelties---which is why the visible columns do not sum to the total. Condition E produced the deepest tree and 40\% more mechanisms than B, reflecting seed-driven lateral exploration; H produced the highest branching factor, reflecting its broad fan-out of epistemological stances.}
+\caption{Final curator-authored graph statistics. Root count, depth, and branching refer only to the stored \texttt{MECHANISM} hierarchy; ``All nodes'' includes all seven node types.}
 \label{tab:graph-stats}
 \end{table}
 
-Figures 1--3 illustrate the distinct topologies that emerged in each taxonomy condition.
+Counts conceal the category structures that produced them. Figures~\ref{fig:tree-b}--\ref{fig:tree-h} visualize the mechanism hierarchies for B, E, and H. They show the curator's conceptual backbone rather than every stored relation: solution nodes and their \texttt{USES\_MECHANISM} links are omitted, synthetic super-roots make independent categories visually comparable, and compressed boxes summarize lower mechanism branches.
 
 \input{tree_B}
 \input{tree_E}
 \input{tree_H}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% RELATED WORK
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The schematics expose three different cartographies of the same task. B partitions proposals through domain concepts such as volatility, non-monetary assets, ownership, and time. E places most mechanisms beneath one Consistency Displacement doctrine and separates technological, social, and hybrid realizations. H instead organizes meta-strategies toward inconsistency itself---accept it, leverage it, transform it, reframe it, dissolve it, and related stances. These are curator-produced search representations, not discovered natural kinds.
 
-\section{Related Work}
+These path-dependent histories describe curator-produced search state. With one trajectory per condition, topology cannot be attributed separately to source, order, prompt, or linking policy. The curator nevertheless constructed and revised a typed representation while search was underway.
 
-Our methods draw on established traditions in creativity research and adapt them for large language models. The foundation for constraint-based ideation comes from de Bono's lateral thinking techniques \cite{debono1970}, which include Random Entry, selecting a random word and connecting its associations to the problem. Eno and Schmidt's Oblique Strategies \cite{eno1975} apply similar principles through constraint cards. Our random seed conditions directly operationalize these techniques; the contribution lies not in the seed method itself, but in systematic comparison across conditions. For structured constraint enforcement, Denial Prompting \cite{lu2025} provides the core insight: iteratively blocking prior solutions forces exploration of novel regions. Our Semantic Tabu method applies this principle with two refinements: constraints stored as mechanism-level semantic descriptions rather than surface features, and explicit avoidance reasoning preceding generation.
+Read descriptively, admission order is also inspectable. B's early admissions cluster in contribution mechanics (surge capture, rotating circles, volatility-hedging pairs, smoothing buffers, time banking) and then market instruments (volatility derivatives, prepaid consumption rights, platform equity); later positions broaden and intermittently reframe rather than climb monotonically. Run 9's \emph{Anti-Fragile Retirement Accounts} treats volatility as a gain source, runs 16--17 shift to non-monetary stores (reputation equity, generational apprenticeship bonds), financial designs recur through the final third, and run 24's \emph{Counter-Cyclical Retirement Pool} reverses flow direction so the pool pays the worker in low months. The captured negotiation at the final planned position proposes a ``Pattern-Learning Retirement Autopilot'' that shifts per-contribution timing decisions from the worker to the system; no canonical record was admitted there. This is a post-hoc reading of one prompted, path-dependent admission order; it documents broadening and intermittent reframing, not category exhaustion or an abstraction hierarchy.
 
-The Orthogonal Insight protocol builds on a longer tradition of fantasy-based reasoning. Gordon's Synectics \cite{gordon1961} introduced Fantasy Analogy over sixty years ago, using impossible scenarios to escape fixation. Dunne and Raby's Speculative Design \cite{dunne2013} extended this tradition to critique present assumptions through fiction. Analogical Prompting \cite{yasunaga2024analogical} demonstrates that LLMs can self-generate exemplars before solving, while Structure-Mapping Theory \cite{gentner1983} provides theoretical foundations for cross-domain transfer. The distinction is between borrowing from a known domain (``look at a bird's wing; use that principle to design a better airplane'') and constructing a counterfactual domain (``build a world where air has the viscosity of syrup; invent propulsion; translate the mechanism back''). Our three-phase protocol (world construction, embedded problem-solving, extraction) automates what previously required human facilitators. Research on LLM output diversity has focused on token-level mechanisms such as temperature and frequency penalties, decoding strategies like diverse beam search, and multi-agent debate approaches \cite{liang2024, du2024}. Recent work identifies ``typicality bias'' in alignment training as a root cause of mode collapse \cite{zhang2025verbalized}, suggesting the problem is structural rather than parametric. These approaches operate at different levels than our methods, which constrain the ideation process rather than the generation process.
+\FloatBarrier
 
-For the Studio Model's multi-agent architecture, we draw on Zwicky's Morphological Analysis \cite{zwicky1969}, which systematically explores parameter combinations, and the CoALA framework \cite{sumers2024}, which provides taxonomies for agent memory and orchestration. Self-Refine \cite{madaan2023} demonstrates iterative improvement through generate-critique-refine loops. Our Explorer-Taxonomist interaction combines these elements: the graph-based taxonomy resembles a dynamic Morphological Box, while the rejection-with-guidance loop implements structured critique. The specific contribution is the Adversarial Interaction Protocol, a cybernetic negotiation where rejection includes diagnostic guidance. Recent work on multi-agent debate confirms that persona assignment alone is insufficient: agents adopt the same reasoning methods even with different roles, requiring structurally diverse reasoning strategies to break ``mental set'' \cite{liu2025dmad}. Our topology produces emergent behaviors (Active Commissioning, Structural Coaching, Ontological Accommodation) not observed in simpler generate-critique architectures.
+\section{Related Search Architectures}
+\label{sec:related}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% LIMITATIONS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Fictional worlds and displaced source spaces have long been used to stimulate creativity. Arnold's 1953 Arcturus~IV case placed human designers inside one alien planetary and biological setting so that ordinary product assumptions no longer applied; Random Entry, Synectics, design fiction, and analogical prompting likewise interrupt fixation~\cite{arnold1953arcturus,debono1970,eno1975,gordon1961,dunne2013,gentner1983,yasunaga2024analogical}. The present protocol extends this tradition into an automated search operator over a \emph{population} of newly constructed causal source worlds, with target isolation during construction and explicit compilation back to one external problem.
 
-\section{Limitations}
+Direct lexical stimulation supplies a second component precedent. Mehrotra et al. prompt a model to incorporate a random object or one of its attributes into product designs, stories, and marketing artifacts~\cite{mehrotra2024associative}. MetaMuse uses four random dictionary keywords as external stimuli and develops them through fixed waypoints---property extraction, problem mapping, complete solution formulation, and code generation~\cite{ma2026metamuse}. Condition C instantiates an unscaffolded Random Entry baseline: one word may become any metaphor, structure, process, or principle, while the nine-field schema constrains only the completed intervention. Its free-association policy differs from scaffolded analogical mapping, while remaining within the established lexical-stimulation family.
 
-Several limitations constrain the generalizability of these findings. All experiments used a single problem domain (retirement system design) and a single model (Claude Opus 4.5); different problem types or language models may exhibit different patterns of convergence and divergence. The sample size of 25 runs per condition may not capture the full distribution of possible outputs, and no statistical significance testing was performed. Seed words, while randomly drawn from the Unix dictionary, were filtered for pronounceability, which may influence results.
+The task scope also differs. MetaMuse searches executable cache-replacement and bin-packing algorithms inside fixed interfaces and measurable feedback spaces. The present study searches an institutional mechanism space with no predefined solution classes or automatic score, making representation and qualitative population control central. Universe of Thoughts also treats ill-defined, open-ended problems and transforms target-derived rules or analogous spaces~\cite{suzuki2025uot}. World-diversity search differs operationally by interposing a population of target-independent causal worlds, purpose-blind local solves, and a separate mechanism-compilation stage.
 
-Evaluation presents additional concerns. Solution quality was assessed by the author rather than domain experts or blind evaluators, introducing potential bias in judging mechanism transfer depth. The structured schema's requirement for a ``label'' field may encourage unique naming regardless of whether underlying mechanisms truly differ; a more rigorous analysis would cluster solutions by semantic similarity rather than label strings. We did not compare against established diversity techniques such as temperature variation, nucleus sampling \cite{holtzman2020}, diverse beam search \cite{vijayakumar2016}, or self-consistency prompting \cite{wang2023}; our methods may or may not outperform these simpler approaches. Most importantly, we demonstrate that methods produce \textit{different} outputs, not \textit{better} ones; whether increased diversity translates to real-world utility remains untested. Experiment code and all solution files are available at the repository listed in Section 2, though exact replication may vary due to model updates and API non-determinism.
+Semantic exclusion likewise has direct precedents. Denial Prompting detects techniques in earlier solutions and accumulates prohibitions; NoveltyBench conditions later answers on earlier ones; G2 summarizes approaches in previous responses and requests a solution using different methods or concepts~\cite{lu2025,zhang2025noveltybench,ruan2025g2}. Semantic Tabu is a mechanism-level, full-record variant: each fresh call receives the structured intervention archive, states broader approaches to avoid, and then proposes another complete intervention.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% DISCUSSION AND FUTURE WORK
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Automated many-environment expansion also predates this work. Enhanced POET generates an evolving population of learning challenges, filters new environments for meaningful novelty, and transfers policies among them~\cite{wang2020poet}. That world-level diversity control is an important precursor to the future system proposed here. Its environments are tasks to be mastered by embodied policies, whereas world-diversity search uses target-independent natural-language causal regimes temporarily imposed on one external semantic problem and then compiled into target-domain intervention mechanisms. MiroFish constructs graph-grounded parallel social worlds from supplied source material and simulates persona agents for prediction and scenario interrogation; its graph represents actors and event memory in the simulated society rather than a candidate population used to redirect solution proposals~\cite{mirofish2025}.
 
-\section{Discussion and Future Work}
+Population expansion, archiving, and selection are also established. Novelty search and MAP-Elites maintain diverse repertoires, while QDAIF combines language-model proposal and evaluation with an evolving MAP-Elites archive~\cite{lehman2011novelty,mouret2015mapelites,bradley2024qdaif}. QDAIF's main studies use researcher-chosen diversity dimensions; Appendix~A.10 of Bradley et al. adds a preselected second dimension during search and proposes automatic generation of new axes. AI Co-Scientist generates, reflects on, clusters, ranks, and evolves scientific hypotheses; its Proximity graph supports clustering and de-duplication, while separate research overviews and Meta-review feedback direct Generation toward unexplored areas~\cite{gottweis2026coscientist}. Together these systems establish generate--organize--select and population-feedback search. The present controller concentrates admission, diagnostic redirection, and category revision in one dynamically restructurable ontology of complete interventions that governs fresh proposal contexts.
 
-The experimental results raise questions about why these methods work, what they reveal about LLM cognition, and where they lead.
+ConceptVis, IdeaHound, and Agentic Deep Graph Reasoning already make conceptual search cumulative. ConceptVis is a human-steered product-concept and design-knowledge branching interface: designers expand selected nodes to control breadth and depth, but it does not induce a curator-owned ontology of abstract causal mechanisms across complete interventions. IdeaHound exposes gaps in an emerging semantic solution map; Agentic Deep Graph Reasoning generates prompts from underexplored regions of an evolving domain concept--relation graph~\cite{duan2024conceptvis,siangliulue2016ideahound,buehler2025agentic}. These are genuine precedents for graph-guided exploration. The distinction here is the representational object and automated control path: recurring LLM curator contexts act on a persistent typed ontology of complete problem-specific intervention records, accept or reject with diagnostic resubmission, reorganize mechanism categories, and return the changed state to fresh proposers.
 
-\subsection{Theoretical Implications}
+Two typed-graph systems provide close representational comparisons. SciAgents combines specialist agents with a literature-derived ontological knowledge graph and emits structured scientific hypotheses containing mechanisms, outcomes, and design principles; generated hypotheses do not become the population that rewrites and steers that graph~\cite{ghafarollahi2024sciagents}. Massoudi and Fuge's Design-State Graph is an evolving typed artifact refined by a nine-role agent system, but it decomposes one engineering design into requirements, embodiments, and models rather than maintaining an ontology of many alternative solutions whose occupancy governs subsequent search~\cite{massoudi2025design}. These systems implement multi-agent typed-graph reasoning at different representational levels.
 
-The broader context for this work is the growing recognition that LLMs risk ``flattening the cognitive landscapes that drive collective intelligence'' \cite{sourati2025}, not merely producing homogeneous outputs, but actively shaping human communication toward standardization through feedback loops. Rather than viewing our methods as prompting strategies, we frame them as \emph{cognitive orchestration}—a System 2 architecture \cite{kahneman2011} built on top of System 1 models, where structured process constraints replace the unconstrained generation that defaults to the median. The Orthogonal Insight protocol in particular operationalizes the \textit{Gedankenexperiment}: just as thought experiments in physics construct impossible scenarios to reveal hidden structure (``What if I rode a beam of light?''), our protocol constructs impossible worlds, solves within their constraints, and extracts structural insights that transfer back to reality.
+This population representation also differs from a graph of reasoning steps. Chain-of-Thought externalizes intermediate reasoning toward one answer; Tree of Thoughts and Graph of Thoughts branch, evaluate, combine, or backtrack over intermediate states~\cite{wei2022cot,yao2023tot,besta2024got}. Ontology-governed search persists across complete candidate interventions and changes the categories shown to and used to judge later proposers.
 
-A natural objection is that LLMs merely retrieve knowledge already present in their training data. But this mischaracterizes what the protocols produce. The individual components---antifragility, flow rights, witnessed obligations---exist somewhere in the weights. However, the specific combinations that emerge under constraint pressure do not exist in the training data; they are synthesized when constraints eliminate default paths and randomness provides novel raw material. This parallels human creativity: a jazz musician knows all the scales and chord progressions, but an improvisation over a specific set of constraints produces something that never existed before. The knowledge of scales does not predetermine the solo. Our protocols mechanize this process: constraints and randomness create the conditions under which novel combinations become inevitable.
+To our knowledge, two protocol-level contributions remain distinct from the precedents above. First, among systems available before the 8 December 2025 Orthogonal Insight release, we found no earlier report of \emph{world-diversity search as specified here}: a population of target-independent textual causal-world constructions, purpose-blind local solves of one external target under their stipulated rules, and separate compilation of the operative relations into target-domain interventions. Second, among systems available before the original 7 March 2026 release of this paper, we found no earlier report of ontology-governed intervention search as implemented here: a persistent typed ontology induced from complete candidate interventions, fresh graph-conditioned proposer contexts, and recurring LLM curation through mechanism-equivalence judgment, acceptance, diagnostic rejection and resubmission, and category restructuring. These claims concern the specified protocols; their component techniques are the established precedents summarized above.
 
-The Orthogonal Insight protocol also surfaced a fundamental reframing of the problem itself. While conventional approaches focused on \textit{optimizing} contributions (``capture windfalls''), the orthogonal conditions consistently converged on the insight that the problem is not behavioral but architectural. The fictional world rules revealed that \textit{consistency of proportion} or \textit{consistency of participation} can substitute for consistency of amount, and may produce more resilient outcomes. This meta-insight---that the problem framing itself was wrong---would not emerge from standard prompting.
+\section{Discussion}
 
-Perhaps the most striking capability demonstrated is \emph{conceptual elimination}. Run 19 (Chalaco) illustrates the mechanism: when alien physics made accumulation impossible due to rapid resource decay, the agent did not attempt to fix the variable---it deleted it, replacing the metric of \textit{Amount} (\$5 vs \$5000) with the metric of \textit{Duration} (1 month of participation). The resulting mechanism mirrors the social contract of pre-monetary societies: one does not ``save'' a mammoth for thirty years; one shares it today to establish a right to be fed tomorrow. The protocol's alien constraints forced the system to reach for this framing, which standard prompting never produces. By deleting accumulation, the agent proved that ``Retirement'' is not inherently an accumulation problem but a \emph{flow rights} problem that we have culturally narrowed. The logical leap from ``solve the inconsistency problem'' to ``delete the variable that creates inconsistency'' represents a qualitative shift from System 1 pattern-matching to System 2 axiomatic derivation.
+The artifacts support two implemented motions with a broader design implication. They show world diversity being used upstream of solution generation and an evolving candidate representation re-entering later generation. Together these motivate, but do not yet validate, a machine that governs both which causal worlds are explored and which compiled mechanisms receive further search and evidence.
 
-\subsection{Emergent Capabilities: Autonomous Abstraction Climbing}
+\subsection{The map becomes part of the generator}
 
-Beyond generating individual mechanisms, the Solution Taxonomy agent autonomously navigated hierarchies of economic value without explicit prompting. After exhausting contribution-based solutions (Runs 1--5: surge capture, rotating circles, hedging pairs, smoothing buffers, time-banking), it explored market mechanisms (Runs 6--8: derivatives, consumption rights, platform equity). By Run 9, it discovered Anti-Fragile Accounts, systems that gain from volatility rather than resist it. Run 16 introduced Reputation Equity, converting accumulated platform trust into transferable retirement income. Run 17 proposed Generational Apprenticeship Bonds, intergenerational labor exchange where teaching younger workers earns retirement credits.
+The graph served as operational control state in two observable senses. Forty of 46 non-leaf mechanism-category titles recur in a later Explorer-side capture, while seven complete hard-redirect chains ended in admission across 75 planned graph positions. The first count records durable vocabulary and the second selective intervention; neither identifies a benefit. The E20 retry and H16 root creation illustrate how the candidate representation could re-enter generation and change while search was underway. Isolating the effects of graph visibility, curator prompting, role separation, extra turns, and qualitative selection requires further controls. A curator-side control could ask whether the operation types themselves---rejection with direction, category creation, and restructuring---arise under a prompt that requests only a legible taxonomy without naming them. Such a control would test whether the operations arise unprompted, not whether they improve search.
 
-This trajectory---production $\to$ markets $\to$ anti-fragility $\to$ non-monetary assets $\to$ social obligations---was not prompted. The graph's gap-identification mechanism led the model to systematically exhaust each taxonomic category before discovering the next, effectively climbing abstraction hierarchies autonomously. In the closing runs, the system approached the logical limit of the ``Individual Volatility'' branch. Having exhausted mechanisms for helping workers manage volatility, it began proposing solutions that removed the human decision-maker entirely, proposing a ``Pattern-Learning Retirement Autopilot'' that treats the worker as a data source for an algorithmic fiduciary. This trajectory marks the transition from behavioral finance (nudging choices) toward autonomous finance (automating choices), revealing where the abstraction ladder leads.
+A fixed archive asks where a candidate belongs within an existing partition. A co-evolving ontology can also ask whether the partition expresses useful distinctions, whether apparently different branches share one mechanism, and whether a proposal requires a new category. Sparse roots can commission targeted proposals; uncombined mechanism--outcome pairs can become search prompts; repeated rejection without new nodes can inform a saturation diagnostic. The ontology is therefore a revisable hypothesis about mechanism space---not a neutral map of all possible solutions.
 
-\subsection{Algorithmic Creativity as a Three-Solver Pipeline}
-\label{sec:pipeline}
+Viewed at the system level, this loop implements a limited operational form of \emph{metacognition}: the machine monitors its own search history and uses that representation to control subsequent search~\cite{cox2005metacognition}. The ontology is an externalized model of what the machine has proposed, which mechanism families it currently recognizes, where it judges proposals equivalent, and which regions it regards as underrepresented. The Taxonomist performs monitoring and control by interpreting the population, revising its categories, and redirecting generation; the Explorer performs the next object-level generation step. The metacognitive unit is therefore the composite Taxonomist--ontology--Explorer machine rather than an isolated language-model call. The released traces establish this information flow; its effect on search quality remains to be measured.
 
-The methods tested here are components of a larger claim: that creativity can be \emph{industrialized}---operated at datacenter scale---through a pipeline of three cooperating Solvers in the sense of~\cite{westerberg2026fractal}.
+\subsection{Preconditioning generation while preserving local autonomy}
 
-\emph{Step~1: Generation.} A family of Solvers producing structurally non-intuitive candidates. This paper's contribution is that several architectures work here---Semantic Tabu via constraint accumulation, the Orthogonal Insight Protocol via alien physics, and hybrid variants---each producing a different topology of the solution space. The median trap is escaped, and the escape route can be chosen.
+The workflows share a design pattern without performing the same operation: each changes some part of the state from which a complete candidate is generated. Random Inspiration supplies an exogenous association. Semantic Tabu asks the proposer to treat represented approaches as unavailable. Orthogonal Insight changes the causal premises of the local solve. The proposed oracle-premise operator would mark one chosen bottleneck as solved. Ontology governance instead changes the population's coordinates by deciding which mechanisms are equivalent, which distinctions deserve categories, and which regions should be commissioned. Across these workflows, part of the search work moves from improvisation inside one answer to an explicit state transformation before the next proposal.
 
-\emph{Step~2: Uniqueness.} A persistent Taxonomist Solver maintaining a typed knowledge graph in which candidates are either accepted as new nodes, merged with existing nodes (when semantically close), or rejected with diagnostic guidance. Conditions B, E, and H implement this Solver with embedding-based deduplication (0.75 for auto-linking, 0.92 for novelty rejection) and hierarchical restructuring. The core difficulty is calibrating uniqueness: too loose and the graph saturates with near-duplicates; too strict and genuine novelty is rejected as variance. Different runs produce different trees over the same problem---uniqueness is a function of the embedding space, not of some absolute structural measure.
+These operators condition generation at different levels. World construction, and the proposed oracle-premise extension, alters the premises of a local solve. Graph restructuring leaves those premises unchanged and alters the categories and gaps explicitly supplied to later calls. H16 added \emph{consistency to a different rhythm} as a persistent category; that category appeared in H17's context, after which H17 repeated its personal-rhythm mechanism and was redirected to the thin \emph{Obscure Inconsistency} branch. E20 records a corresponding retry from signal detection to ownership routing. These temporal sequences are consistent with representation-sensitive redirection but do not identify the graph's causal contribution.
 
-\emph{Step~3: Selection.} A Selector Solver picking the most valuable candidates from the deduplicated pool. This is the industrialization bottleneck, and we do not solve it here. Standard selection (``pick the best'') regresses to the median because the selecting Solver inherits the same training-distribution priors as the generating Solver, filtering out exactly the alien results the generator produced at cost. We call this the \emph{alien preservation} problem, and any working rubric must explicitly privilege structural novelty over immediate feasibility.
+The architecture combines contextual independence with deliberate population dependence. H supplies the richest executed crossing: a fresh Explorer receives a world-and-solution artifact plus the current graph, while the Taxonomist controls admission and map revision. This is bounded semantic autonomy: local generation has discretion within inspectable external constraints. Externalizing category formation, structural-equivalence judgment, gap detection, and commissioning makes them explicit population-level operations across fresh contexts. This differs from architectures that organize intermediate reasoning states toward one current answer; the relevant distinction is the scope of the search state, not the visual form of a graph or chain.
 
-Candidate evaluation mechanisms are diverse: adversarial debate tournaments, pitch competitions, PURE (Parsimonious, Unique, Realizable, Expansive)~\cite{westerberg2026fractal} viability screens, or any other structured confrontation capable of surfacing differences the generating distribution would smooth over. What matters is not the specific form but the structural property that evaluation depth \emph{scales inversely with the remaining field}---early rounds apply a cheap check (a shallow PURE screen, a one-paragraph pitch, a brief adversarial exchange) while later rounds, as survivors thin and the cost of misranking rises, scale to full PURE with deep decomposition and extended cross-examination. The companion framework's Discovery Protocol~\cite{westerberg2026fractal} formalizes this progressive-depth bracket. Where domain-specific ground-truth evaluation is available it can substitute for adversarial judgment; where no evaluator can be trusted, human-in-the-loop at the terminal step remains the honest fallback.
+\subsection{World diversity should itself become governed search state}
 
-The output of Step~3 is itself a design choice, not a fixed commitment to a single winner. Three output formats compose naturally with the pipeline: a \emph{single best} mechanism (highest-scoring after adversarial selection), a \emph{top-$k$ diverse set} surfaced to a human reviewer, or a \emph{probability-weighted distribution} over all survivors that preserves uncertainty rather than collapsing it. Whether Step~3 can be automated without regression-to-median---and which output format serves which downstream task---determines whether algorithmic creativity can run without human oversight at the terminal step.
+Each released World Builder operated independently from its siblings, and diversity control began only after candidate compilation. The 125 named world rules and five broad families in Table~\ref{tab:world-families} make the realized variation inspectable inside a fixed template, but causal overlap among source worlds remained unmanaged. All 25 Solver outputs contained multi-component downstream architecture, yet three derivations failed and eight were borderline on the final-outcome-fiat test. Automated width therefore produced usable reasoning traces under the codebook without guaranteeing disciplined causal regimes. A governed world population would distinguish seed diversity from causal-regime diversity.
 
-When the three Solvers compose through the contract of~\cite{westerberg2026fractal}, each can itself decompose into a tree of sub-Solvers: a Generation Solver, for instance, branches into Tabu, Orthogonal, and Taxonomy-guided sub-Solvers, each of which may recursively decompose further. At scale, the result is a fractal: a recursive structure where every Solver presents the same contract, and where rejection at any gate compels restructuring, not retry. The methods in this paper occupy the bottom layer of that structure.
+A next system could maintain a \emph{world-population ontology} alongside the candidate-solution ontology. Before the target is disclosed, each world could be represented by a causal signature over temporality, conservation, agency, identity, scarcity, information flow, boundary structure, permitted transformations, and social or physical enforcement. A World Taxonomist could merge near-equivalent regimes, split inadequate categories, reject shallow restatements, and commission Builders into thin or unrepresented regions. This preserves target blindness while making the front end a coverage-seeking search rather than a collection of unrelated one-shot generations.
 
-\subsection{The Taxonomy as Infrastructure}
+A governed world generator could combine random words with stipulated physical constraints, evolutionary or ecological histories, technological path dependencies, historical branch points, institutional or cultural inversions, and systematic removals or substitutions of familiar capabilities. Operators could also compose departures, such as alternative evolution inside a resource regime with altered conservation rules. Their utility is an empirical question; explicit causal signatures would make the resulting world diversity and downstream mechanism yield testable. The prior release proposed a world-richness ablation~\cite{westerberg2025strangeworlds}: whether sparser or richer textual elaboration than the released worlds changes downstream mechanism variety when the seed, model, and solve protocol are held fixed. Executable simulation is a separate dimension from textual elaboration, not its endpoint.
 
+A separate extension would deliberately relax target blindness. A target-aware, single-property \emph{oracle-premise} operator would stipulate that one known part of a problem is already solved, then derive a more complete solution conditional on that premise. In a cancer-research thought experiment, for example, the world might stipulate that malignant and healthy cells are perfectly distinguishable. Solving locally could expose the remaining requirements for delivery, timing, resistance, monitoring, and combination; compilation would then work backward, treating perfect discrimination as a design specification and asking which real biological or technological mechanisms could approximate it. None of the released runs implemented this operator because every Builder was target-blind. They nevertheless contain incidental analogues: in \emph{phosis}, an unavoidable gradient made contribution capture automatic before the Solver derived pooling, storage, reserves, and verification; in \emph{limelike}, irreversible binding made commitment a given before the Solver derived variable intake and staged release. These traces motivate rather than instantiate oracle-premise search.
 
-The Solution Taxonomy serves not only as a novelty enforcement mechanism but as a map enabling intelligent exploration. Saturation detection emerges naturally: as generation proceeds, the rate of new mechanism and outcome node creation declines while linking to existing nodes increases. The graph provides a principled stopping criterion: continue until $k$ consecutive solutions fail to create new concept nodes. Gap-directed exploration becomes possible because the graph reveals unexplored territory: mechanism nodes with only one solution (under-exploited approaches), outcome nodes never achieved (unreached goals), and mechanism-outcome pairs never combined. These gaps can be explicitly targeted (``Generate a solution using mechanism X that achieves outcome Y''), transforming blind search into cartography.
+Oracle-premise decomposition is directed and potentially cheaper because a person or agent chooses the bottleneck in advance. Target-blind strange worlds search more broadly: they may expose premises and relations that nobody knew to stipulate. A governed portfolio could allocate effort across both. Oracle-premise worlds would generate hypotheses rather than biological simulations or evidence of efficacy; resulting mechanisms would require domain-expert review and empirical validation.
 
-If the graph incorporates evaluation criteria as node types (Feasibility, Scalability, Novelty), selection becomes graph traversal rather than external judgment. High-value solutions are those connected to desirable outcome and feasibility nodes; the graph structure itself becomes the selection rubric, avoiding regression-to-median because the rubric was built during generation, not imposed afterward. The current implementation includes hierarchical restructuring primitives, atomic batch operations that reorganize graph regions while enforcing an orphan-free invariant: every solution remains connected to at least one mechanism and outcome node. The Taxonomist demonstrated these capabilities by autonomously creating new root categories (``Reframe Inconsistency,'' ``Dissolve Inconsistency'') when proposals defied existing classification. Remaining work includes edge weights for similarity scores, temporal markers showing category evolution, and explicit gap-targeting prompts.
+World novelty and productive novelty must then be evaluated separately. \emph{Ex-ante world diversity} asks whether a source regime adds an unrepresented causal structure before the target is known. \emph{Ex-post mechanism yield} asks whether solving and compiling that regime adds an intervention mechanism absent from the candidate ontology. Repeated seeds, matched compute, blinded causal coding, and marginal-yield curves could test whether governed world coverage discovers more portable and useful mechanisms than random words alone. The world ontology would decide where to look; the candidate ontology would decide what the search found.
 
-\subsection{Applications and Scaling}
+\subsection{How fan-out and fold-back spend a finite budget}
 
-These methods generalize to any domain where escaping trained priors is valuable. In planning, one could generate plans under alien constraints, then extract robust strategies that survive multiple world-rule regimes. For argumentation, constructing novel arguments by solving debates in worlds with different epistemological rules, then translating logical structures back. In prediction, running scenarios under counterfactual rules stress-tests assumptions: ``What breaks if resources flowed toward scarcity?'' reveals hidden dependencies. For red-teaming, adversarial agents operating under alien world rules may find attack vectors invisible to conventional models.
+Many-world fan-out spends budget on additional premise-level branches, whereas ontology fold-back spends it on maintaining, comparing, and redirecting the compiled candidate population. A random cue perturbs the answer context, whereas Orthogonal Insight first perturbs the causal world in which an answer must make sense. A detour through an alien world may therefore become a shortcut through the model's ordinary proposal distribution.
 
-At scale, general-purpose LLMs could be replaced with world-specialized models fine-tuned on corpora generated within specific world-rule regimes. A model trained exclusively on outputs from worlds where ``concentration creates instability'' would internalize those rules, producing more coherent solutions within that ontology, suggesting a future architecture of diverse specialist models embodying different counterfactual physics. The protocol naturally supports distribution: a network where any node submits problems, worlds spawn across distributed compute, and results aggregate---with the three output formats discussed in Section~\ref{sec:pipeline} (single best, top-$k$, or probability-weighted distribution) transforming single-user tools into infrastructure for collective intelligence augmentation.
+The architectural scaling hypothesis has two parts. Because world construction and solving do not require sibling-branch context, width can be increased and parallelized before stateful transfer; open F compilation is parallelizable as well. Because G and H use accumulating control state, however, their current transfer paths are sequential. A future world ontology would add its own coordination cost before solving, while the candidate ontology moves the later bottleneck toward mechanism-equivalence judgment, graph maintenance, and validation. A suitable evaluation measures the number of distinct, useful mechanisms per token or model call as world coverage and candidate-graph size grow. The present study does not estimate marginal yield per added world, curator cost, or end-to-end efficiency.
 
-\subsection{Open Questions}
+\subsection{From search kernel to a problem-solving machine}
 
-Several ablation studies would clarify essential components. First, detail calibration: does richer world-building produce more intricate mechanisms, or are there diminishing returns? Our protocol uses moderate elaboration; whether sparse sketches or deeply simulated worlds perform differently remains unexplored.
+The release demonstrates the first scaling motion at modest width. Beyond that experiment, we propose a machine that expands solution space deliberately. More target-blind World Builders could construct additional causally coherent worlds; purpose-blind in-world Solvers could work on the target without knowing the experiment's purpose or later transfer task; and fresh extractors could compile their operative relations into candidate interventions. A persistent curator ontology would normalize mechanism descriptions, reject aliases, restructure inadequate categories, and commission proposals into thin or uncombined branches. The scaling objective is the number of structurally differentiated and inspectable mechanisms obtained under a finite compute budget.
 
-Second, minimal intervention: a simpler approach might achieve equivalent results. Take a standard solution, randomly replace key words with dictionary words, instruct the model to treat substitutions as fundamental laws, and iterate until coherent. If this shortcut produces comparable structural novelty, the multi-agent world-building architecture may be unnecessary overhead. If not, coherent world construction may be essential for meaningful constraint satisfaction rather than mere noise injection. This ablation would determine whether the protocol's complexity is justified.
+Scale decomposes into four operational axes: raw world width $K$, governed causal coverage of the world population, breadth $|G_t|$ of the compiled candidate ontology, and evidentiary depth allocated to survivors. The release exercises raw width and candidate breadth at modest scale; world-level coverage control and progressive evidentiary depth remain proposed. Large-scale execution would also require concurrent graph-update policies, curator calibration, and stopping rules.
 
-Third, mechanism classification: future iterations could classify extracted mechanisms as Portable (transfers directly to reality), Inverse (reveals hidden assumptions in current systems, offering diagnostic value), or Magical (only works in fiction; discard or defer). What counts as magical today may become portable tomorrow as technology evolves; tracking these categories over time could reveal which alien mechanisms are ahead of their time versus genuinely impossible.
+A complete problem-solving pipeline additionally requires selection and evidence. Candidates would first face inexpensive criticism and mechanism-equivalence checks; survivors would receive progressively more detail through domain models, adversarial comparison, increasingly realistic simulation, literature and data review, expert judgment, and---where safe---real-world testing. The prior release proposed portable, inverse, and magical labels for compiled mechanisms~\cite{westerberg2025strangeworlds}; read as nonexclusive, time-stamped transfer annotations, they would let a population record when a mechanism that was magical under earlier technology has become portable. They were not applied in this experiment. If evaluation criteria are themselves typed nodes, graph structure can prioritize which candidates receive evaluation attention next; connectivity can direct scrutiny, but it cannot itself establish value or feasibility, which require the downstream evidence above.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% CONCLUSION
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Selection must preserve structural diversity while candidates mature. One hypothesized failure mode is prior inheritance: a Selector drawn from the same model family may reproduce correlated familiarity preferences, so unguarded best-of ranking risks prematurely down-ranking displaced mechanisms. This risk is stated as a design consideration, not a measured effect. Quality-diversity methods motivate preserving niches rather than collapsing immediately to one global score~\cite{lehman2011novelty,mouret2015mapelites,bradley2024qdaif}. \emph{Alien Preservation} names the corresponding requirement here: an unusual branch is given enough development and evidentiary testing before familiarity or early feasibility judgments may eliminate it~\cite{westerberg2025strangeworlds}. The stage's output format is a further design choice, carried over from the prior release~\cite{westerberg2025strangeworlds}: a single best mechanism, a top-$k$ structurally diverse portfolio for human review, or a weighted survivor set that preserves uncertainty rather than collapsing it---calling those weights probabilities would require calibration. For a medical problem, the ontology could allocate attention across intervention mechanisms and claimed outcomes while scientific evidence determines which candidates survive. In such a system, the graph would govern where evaluation effort goes without substituting for efficacy or safety. Whether this architecture discovers more useful mechanisms per unit of compute remains the central experiment.
+
+\paragraph{Speculative extensions.} The prior release and this paper's original version sketched three further directions, retained here as unevaluated design hypotheses~\cite{westerberg2025strangeworlds}: cross-domain instantiation of the same operators (planning, argumentation, forecasting, red-teaming); world-specialized models fine-tuned on corpora generated within one world-rule regime, intended to approximate different counterfactual causal structures; and distributed operation, in which many parties submit problems and share curated candidate populations. The parallel front end is amenable to distribution; the stateful fold-back is not directly distributable and would depend on the concurrent graph-update policies noted above. None of these is implemented or evaluated here.
+
+\section{Evidence Boundary and Limitations}
+
+Table~\ref{tab:claim-status} distinguishes implemented components and descriptive artifact analyses from hypotheses concerning creativity, utility, causal advantage, and large-scale efficiency.
+
+\paragraph{Design and dependence.} The design cannot isolate architecture effects. It lacks a contemporary direct/no-control cell; banks and graphs accumulate in fixed order; F--H share upstream artifacts; and ontology conditions jointly add role separation, graph visibility, persistent state, extra turns, tool use, rejection, and accepted-only selection. The 196 records are therefore dependent outputs, not independent experimental replications.
+
+\paragraph{Construct validity.} Exact-string and embedding differences do not establish mechanism-level novelty or quality. Schema pressure and condition-specific language may influence both, while graph structure reflects curator policy as well as candidate structure. The trace census uses one unblinded, post-hoc coding pass without an independent second coder. No human mechanism-equivalence panel, domain-expert assessment, or outcome evaluation was performed.
+
+\paragraph{Scope.} The study covers one retirement prompt, one nominal model configuration, and one trajectory for each ontology condition. It includes no varied proposal orders, held-out seeds, alternative models, replicated graphs, or compute-matched ablations. Transfer to other domains remains open.
+
+\paragraph{Provenance and availability.} Code, prompts, graph databases, run artifacts, deterministic analysis scripts, and the trace-coding ledger are available at \url{https://github.com/emergent-wisdom/ontology-of-the-alien}. Repository documentation specifies the canonical reconstruction and artifact chronology.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{39mm}>{\raggedright\arraybackslash}p{25mm}X}
+\toprule
+\textbf{Claim} & \textbf{Status} & \textbf{Evidence boundary} \\
+\midrule
+Eight workflows; 196 canonical records & Implemented, audited & 125 retained outputs plus 71 curator-accepted graph records; one prompt, one nominal model configuration, dependent sequential outputs. \\
+Automated 25-world fan-out & Implemented, audited & 25 stored world texts and 25 Solver outputs; phase-level parallelism in five-branch batches; no width sweep or throughput benchmark. \\
+World-rule, premise-relief, and shared-source diagnostics & Post-hoc descriptive coding & 125 model-labeled rules; 17 clear and 8 partial bottleneck-relief codes; 25/25 downstream-architecture codes; 14/8/3 pass--borderline--fail on final-outcome fiat; an F--G lexical signature; no independent coder. \\
+Exact-string uniqueness and embedding ratios & Descriptively evaluated & Text properties under one encoder; no functional-equivalence judgment. \\
+Three graph topologies & Descriptively evaluated & One final curator-authored graph per graph condition. \\
+Tabu archive uptake & Post-hoc trace-coded & 72/72 later responses restated prior mechanisms and declared exclusions; semantic avoidance was not evaluated. \\
+Graph redirection and category reuse & Post-hoc trace-coded & Seven complete chains across 75 planned positions, ending in 7/71 admissions; 40/46 non-leaf category titles recurred later; no causal ablation. \\
+Candidate ontology used as control state & Implemented & Graph state was supplied to every Explorer; selected traces explicitly used it in rejection, retry, and category mutation. Benefit was not isolated. \\
+World-mediated probability uplift or faster discovery & Hypothesized & No matched-compute or causally identified direct-cue comparison, independent mechanism-equivalence coding, or normalized hit-rate estimate. \\
+External novelty, quality, usefulness & Not evaluated & No domain experts, blind judges, ground truth, adoption, or outcome study. \\
+Causal superiority of graph or multi-agent roles & Not identified & Conditions also differ in memory, context, turns, tool use, compute, and selection. \\
+Larger-scale efficiency or coverage growth & Not evaluated & No cost curve, saturation study, or mechanism-yield estimate as $K$ and $|G_t|$ grow. \\
+World-population ontology and commissioning & Proposed & No world archive, causal-equivalence gate, adaptive world categories, or graph-directed World Builder ran. \\
+Stopping rules and graph-based selection & Proposed & Code exposes some graph queries; downstream benefits were not tested. \\
+\bottomrule
+\end{tabularx}
+\caption{Claim-status map for the released study and later proposals.}
+\label{tab:claim-status}
+\end{table}
+\FloatBarrier
 
 \section{Conclusion}
 
-We have presented a systematic comparison of eight methods for escaping the Median Trap in LLM ideation, utilizing Random Seed as a baseline to evaluate three novel architectures: Semantic Tabu, the Solution Taxonomy, and the Orthogonal Insight Protocol. Our results demonstrate that these methods do more than simply increase variance; they fundamentally reshape the topology of the solution space. While Semantic Tabu forces depth through linear exhaustion, the dual-agent Solution Taxonomy creates an adversarial studio environment where agents autonomously commission research, coach each other on structural novelty, and restructure their own taxonomy. The Orthogonal Insight Protocol goes further, enabling efficient ontology mining by constructing and translating coherent alternative physics.
+World-diversity search changes the object being diversified. Instead of asking for many answers inside one assumed causal frame, it constructs many textual causal frames in which different mechanisms can become ordinary, solves locally inside them, and compiles the resulting relations into interventions for one external problem. The released operator performs this transformation across 25 worlds; ontology-governed intervention search supplies the fold-back. Fresh, graph-conditioned Explorers propose complete candidate interventions, while recurring Taxonomist contexts read and revise a persistent ontology, issue mechanism-equivalence judgments, reject structural repetition, and redirect retries or later generation. Taken as one machine, the Taxonomist, ontology, and Explorer form an externalized metacognitive layer over generation: the system represents its own search history and uses that representation to decide where thought should go next.
 
-Graph topology analysis confirms that the choice of inspiration source dictates the exploration signature. Without external inspiration, the model climbs vertically into abstract domain categories; with seeds, it branches laterally into metaphorical frames; and with alien worlds, it extracts fundamental epistemological stances. These findings suggest that the choice of method should be governed by the specific objective---whether one seeks reliable templates, conceptual breadth, or structural reframing.
+The trace census extends this process evidence beyond individual examples. Premise-conditioned generation appears throughout the world corpus, while complete ontology rejection--redirection chains occur selectively. The artifacts document premise-conditioned generation and graph-conditioned redirection; they do not establish that either operation improves novelty, quality, or usefulness.
 
-Read through the lens of the Solver contract~\cite{westerberg2026fractal}, the architectures tested here implement the first two stages of a three-stage pipeline for industrialized creativity---generation and uniqueness---and demonstrate empirically that cognitive isolation between typed Solvers produces structural novelty that no monolithic model reaches. The third stage, selection without regression to the median, remains the open problem. Ultimately, we conclude that the path to AI creativity lies not in the unconstrained freedom of higher temperatures, but in the generative pressure of stricter, stranger constraints composed behind hard boundaries.
+The common design principle is bounded semantic autonomy. Fresh generative roles reason richly inside explicit local frames, while long-lived coordination resides in inspectable artifacts outside those roles. Random cues and causal worlds occupy progressively richer positions on the source-frame axis; Tabu banks and candidate ontologies do the same on the population-state axis. This architecture is intended for open-ended problems in which neither the important solution families nor a universal evaluator are supplied in advance. The released study documents this use on one institutional-design problem; cross-domain generalization remains to be evaluated.
+
+Current evidence covers automated breadth and stateful fold-back on one retirement problem. Completing the machine requires a governed portfolio of target-blind world generation and target-aware oracle-premise decomposition, human-validated mechanism equivalence, concurrency-safe population control, diversity-preserving portfolio selection, and progressively realistic tests of surviving branches. The decisive next experiment is whether, across problems and models, world-level coverage control plus candidate-level ontology governance discovers useful mechanism classes missed by matched-compute direct, random-cue, random-world, and fixed-archive baselines. The larger wager is expansion before optimization: diversify the worlds in which a solution can become ordinary, measure what new mechanisms each world contributes, and preserve unusual survivors long enough to earn or lose evidentiary support.
+
+\section*{Code and Artifact Availability}
+
+Code, paper source, prompts, graph databases, run artifacts, deterministic analysis scripts, and the trace-coding ledger are available at \url{https://github.com/emergent-wisdom/ontology-of-the-alien}. The separately released Orthogonal Insight Engine used for the world-diversity stage is available at \url{https://github.com/emergent-wisdom/orthogonal-insight-engine}; the earlier protocol paper is archived at \href{https://doi.org/10.5281/zenodo.17905401}{doi:10.5281/zenodo.17905401}. The original release of this paper is archived at \href{https://doi.org/10.5281/zenodo.18912179}{doi:10.5281/zenodo.18912179}.
 
 \bibliographystyle{unsrt}
 \bibliography{references}
 
 \appendix
 
-\section{Additional Orthogonal Insight Traces}
+\section{Curated Trace Summaries}
 \label{sec:appendix-traces}
 
-This appendix provides three additional end-to-end traces of the Orthogonal Insight Protocol, each showing the full four-phase pipeline from a random dictionary seed to an extracted real-world mechanism. Together with the DESPERACY trace in \S2.4, they illustrate the range of semantic fields the World-Builder inhabits---narrative, maritime, mineralogical---and the consistent structural shape of the extraction step across otherwise unrelated alien physics.
+The following are author-curated summaries of saved model outputs, not verbatim transcripts and not validated proposals. The first three illustrate premise-level preconditioning and mechanism compilation; the fourth illustrates representation-level redirection by the candidate ontology.
 
-\subsection*{Trace A — Seed: ``theatrical'' (Run 10, Condition F)}
-
-\begin{center}
-\small
-\begin{tabular}{@{}p{3.2cm}p{10.5cm}@{}}
-\toprule
-\textbf{Phase} & \textbf{Content} \\
-\midrule
-1. Seed & \texttt{theatrical} \\[2pt]
-2. World rules & Witnessed actions become real; a ``Tension Ledger'' tracks accumulated dramatic weight (not money); Contribution Ceremonies create force through public commitment; Third-Act narrative obligation---reality \emph{must} complete a person's story; Timing Guilds read narrative arcs rather than calendar dates. \\[2pt]
-3. Blind solve (alien solution) & Retirement as the third act of a witnessed life: contributions are measured as proportional sacrifice (not dollar amount), pledged publicly, and tracked as dramatic weight; timing of retirement is determined by narrative readiness. \\[2pt]
-4. Extraction (reality mechanism) & Hardship-adjusted sacrifice score: contributing 5\% of income when income has dropped 40\% scores higher than contributing 10\% at stable income. Public commitment devices and witnessed pledges replace numerical consistency. Label: \emph{Witnessed Sacrifice Retirement}. \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\noindent Structural inversion: the actuarial question ``how much did you save?'' is replaced by ``how much did it cost you to save?''---which values variable-income workers precisely where traditional systems penalize them.
-
-\subsection*{Trace B — Seed: ``chalaco'' (Run 19, Condition F)}
+\subsection*{Trace A: \emph{theatrical} (F, run 10)}
 
 \begin{center}
-\small
-\begin{tabular}{@{}p{3.2cm}p{10.5cm}@{}}
+\footnotesize
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{28mm}X}
 \toprule
-\textbf{Phase} & \textbf{Content} \\
-\midrule
-1. Seed & \texttt{chalaco} (obscure demonym for a resident of Callao, Peru's principal port) \\[2pt]
-2. World rules & Wealth flows automatically between neighbors every 4.7 seconds; commune-level smoothing averages properties across members; elders' ``pattern-memory'' physically anchors buildings, making their participation structurally necessary; isolation is lethal; hoarding is physically impossible. \\[2pt]
-3. Blind solve (alien solution) & Small communes where wealth perpetually redistributes through elder-anchored social structures; participation is survival, and elder authority derives from pattern-memory rather than accumulation. \\[2pt]
-4. Extraction (reality mechanism) & Weave Collectives: small groups (7--20) meeting monthly; members contribute proportionally to capacity (time, money, skills); consistent participation over decades earns non-transferable access rights to collective resources (housing, care, food networks); elder governance roles make their participation structurally required, not charitable. Label: \emph{Weave Collectives: Presence-Based Security}. \\
+Seed and world & Witnessed acts acquire force; tension accumulates; public commitment matters more than accumulated quantity. \\
+Alien solution & Retirement is a witnessed third act in which proportional sacrifice and narrative readiness determine claims. \\
+Extraction & \emph{Witnessed Sacrifice Retirement}: contributions are scored as a share of current variable income; hardship-adjusted contribution and witnessing replace a fixed monthly target. \\
+Design move & Replace absolute amount with proportional effort. \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 
-\noindent Structural inversion: security derives from accumulated \emph{presence} rather than accumulated \emph{assets}, and elders become load-bearing infrastructure rather than recipients of charity.
-
-\subsection*{Trace C — Seed: ``limelike'' (Run 1, Condition H)}
+\subsection*{Trace B: \emph{desperacy} (F, run 22)}
 
 \begin{center}
-\small
-\begin{tabular}{@{}p{3.2cm}p{10.5cm}@{}}
+\footnotesize
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{28mm}X}
 \toprule
-\textbf{Phase} & \textbf{Content} \\
-\midrule
-1. Seed & \texttt{limelike} \\[2pt]
-2. World rules & Accretion Stones: personal containers that physically grow with contributions but cannot be un-fused; calcification is irreversible; matter, once bonded, does not separate; value is determined by the layered history of deposits, not a withdrawable balance. \\[2pt]
-3. Blind solve (alien solution) & Retirement as an irreversible accretion process: each contribution calcifies onto the worker's personal stone, which cannot be broken open prematurely; the stone's total mass at a later life stage is the retirement. \\[2pt]
-4. Extraction (reality mechanism) & Smart contracts or legal trusts that accept any contribution amount at any time with zero minimums, but have \emph{no} early withdrawal function coded or structured in. The money calcifies---it cannot un-fuse until retirement triggers. Label: \emph{Irrevocable Accretion Contracts}. \\
+Seed and world & Authentic need attracts resources; synchronized needs multiply their pull, while satisfaction reverses and displaces need. \\
+Alien solution & \emph{Resonance Banking}: intergenerational groups preserve many mild needs that amplify an elder's urgent need; irregular earners' cycles keep this capacity active. \\
+Extraction & \emph{Resonance Pods: Variable-Bond Retirement}: small transparent groups make variable good-month contributions and coordinate money and care when an elder faces crisis. \\
+Design move & Treat income volatility and hardship experience as coordination capacity rather than savings failure. \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 
-\noindent Structural inversion: liquidity-preference is solved by physical constraint rather than behavioral nudge---the contribution commits at the molecular level, and the architecture, not the worker's willpower, enforces the commitment.
+\subsection*{Trace C: \emph{phosis} (F, run 24)}
 
-\medskip
+\begin{center}
+\footnotesize
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{28mm}X}
+\toprule
+Seed and world & Luminous gradients force flow into a lower-radiance absorption well; different matrices preserve different kinds of value. \\
+Alien solution & Capture is automatic. The Solver must instead design heterogeneous storage, a stabilizing anchor, reserve behavior, and integrity checks. \\
+Extraction & \emph{Absorption Well Retirement Collectives}: an at-source router contributes income above a moving personal baseline into separate financial, housing, health, and social-purpose pools. \\
+Design move & Treat one bottleneck as provisionally solved, then derive the remaining architecture and seek a target-domain proxy for the stipulated capability. \\
+\bottomrule
+\end{tabularx}
+\end{center}
 
-\noindent Across all four traces (including DESPERACY in \S2.4), a consistent pattern: the alien physics forces a \emph{specific structural inversion} that the Extraction Solver then translates into a real mechanism carrying the same inversion without the physics. The alien world is not a metaphor; it is a constraint-satisfaction forcing function.
+\subsection*{Trace D: H18/H19 graph redirection}
+
+\begin{center}
+\footnotesize
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{28mm}X}
+\toprule
+Occupied state & The graph already represented multi-pool distribution and personal-pattern scoring under \emph{Distribute} and \emph{Reframe Inconsistency}. \\
+Rejection & A proposal combining overlapping pools with pattern-based priority was judged a mashup of those occupied mechanisms. \\
+Diagnostic & The Taxonomist isolated one unrepresented relation: eliminate accumulation and the balance concept, retaining only claims on current flow. \\
+Retry and restructure & \emph{Balance-Free Flow Rights} allocates current inflow by duration credits; the admitted candidate created the \emph{Dissolve Inconsistency} root. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Together, these traces illustrate two conditioning paths: a stipulated causal rule constrains the local solve before its operative relation is recast as an institutional mechanism, whereas an evolving ontology can reject an occupied combination and explicitly request another relation. The matched-source \emph{limelike} F/H comparison appears in Section~\ref{sec:alien-world-mechanism}. Determining whether either path raises the finite-budget rate of original and useful mechanisms requires matched-compute evaluation.
 
 \end{document}

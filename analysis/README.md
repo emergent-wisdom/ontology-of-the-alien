@@ -1,25 +1,48 @@
-# Analysis scripts
+# Deterministic analysis
 
-Reproducers for the quantitative claims in `paper/ontology_of_the_alien.tex`.
+These scripts audit the released artifacts and reproduce the descriptive
+statistics in the August 2026 revision. They do not call a generative model.
 
-| Script | Reproduces | Runs offline? |
+| Script | Purpose | Network/model requirement |
 |---|---|---|
-| `analyze_topology.py` | The graph-topology table (§3.4, `tab:graph-stats`): mechanisms, roots, max depth, branching, total nodes — computed from the `nodes`/`edges` tables in each `<condition>/taxonomy.db`. Self-asserts the published values. | Yes |
-| `analyze_embeddings.py` | The sentence-embedding distinctness analysis (§3.1): per-mechanism best-match cosine within vs between conditions with `all-MiniLM-L6-v2`. | Full mode needs the model; `--from-cache` runs offline |
-| `analyze_results.py` | Original label-uniqueness / tabu-progression tables. | Yes |
+| `analyze_results.py` | Reconciles 200 planned slots, 196 canonical records (125 retained outputs plus 71 curator-accepted graph records), 195 non-empty top-level run solutions, 168 strictly valid run JSON files, and exact-string uniqueness. | Offline; Python standard library |
+| `analyze_world_diversity.py` | Audits the 25 world/Solver pairs, named world rules, a transparent post-hoc world grouping, and word-TF-IDF shared-source signatures in C/F/G. | Offline; Python standard library |
+| `analyze_topology.py` | Recomputes mechanism counts, roots, maximum depth, branching, and total nodes from the three taxonomy databases. | Offline; Python standard library |
+| `analyze_embeddings.py` | Recomputes normalized sentence-embedding similarities over the canonical 196-record corpus. | Full mode requires `sentence-transformers` and the pinned encoder weights; `--from-cache` is an offline B/E/H diagnostic |
+| `trace_coding.md` | Defines and records the post-hoc interpretive coding of world-premise relief, Semantic-Tabu history uptake, and graph-control events. | No runtime requirement; the codes are judgments, not automatic measurements |
 
 ```bash
-python3 analysis/analyze_topology.py                 # prints + asserts the topology table
-python3 analysis/analyze_embeddings.py               # full §3.1 (needs sentence-transformers + model)
-python3 analysis/analyze_embeddings.py --from-cache  # offline partial check, taxonomy conditions only
+python3 analysis/analyze_results.py
+python3 analysis/analyze_world_diversity.py
+python3 analysis/analyze_topology.py
+python3 analysis/analyze_embeddings.py
+python3 analysis/analyze_embeddings.py --from-cache
 ```
 
-**Reproducibility caveat for §3.1.** Only the three taxonomy conditions (B, E, H)
-persist embeddings on disk (in `taxonomy.db`). The five non-taxonomy conditions
-(A, C, D, F, G) do not, so the full eight-condition *between*-similarity (0.512)
-and the per-condition ratios require re-running `all-MiniLM-L6-v2` over every
-`solution.core_mechanism` (full mode). The offline `--from-cache` check recovers
-the per-solution core mechanisms for B/E/H from the cached vectors and reproduces
-the *within*-condition magnitude (0.561 vs the paper's 0.566); its
-between-condition figure is restricted to {B, E, H} and is **not** comparable to
-the paper's full-universe 0.512.
+## Canonical corpus
+
+Conditions A, C, D, F, and G are read from their run JSON. Conditions B, E,
+and H are read from `taxonomy.db`, which is authoritative for accepted graph
+records. This mixed-source reconstruction is necessary because B run 12 is
+marked accepted but its top-level `solution` object is empty; the corresponding
+`Distributed Micro-Retirement Accounting` record exists in the graph database.
+
+Thirty-two taxonomy run files contain malformed JSON in their captured
+`reasoning` strings. The analysis does not silently repair those historical
+files.
+
+## Embedding definition
+
+The full embedding analysis pins
+`sentence-transformers/all-MiniLM-L6-v2` at revision
+`1110a243fdf4706b3f48f1d95db1a4f5529b4d41` and L2-normalizes the vectors.
+For solution \(i\) in condition \(c\), it computes the closest other solution
+within \(c\). For every other condition \(d\), it separately computes the
+closest solution in \(d\), then averages those seven maxima. Corpus means are
+0.563 within condition and 0.514 between conditions (ratio 1.10).
+
+The persisted database vectors cover only B, E, and H. Consequently,
+`--from-cache` is a diagnostic over those three conditions and cannot reproduce
+the full eight-condition between-condition statistic. These similarities are
+descriptive text properties, not measures of creativity, quality, or external
+novelty.
