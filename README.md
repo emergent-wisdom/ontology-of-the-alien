@@ -1,11 +1,11 @@
 # The Ontology of the Alien: World-Diversity Search and Evolving Solution Ontologies
 
 [![Paper](https://img.shields.io/badge/Paper-PDF-red)](paper/ontology_of_the_alien.pdf)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21910466.svg)](https://doi.org/10.5281/zenodo.21910466)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18904509.svg)](https://doi.org/10.5281/zenodo.18904509)
 [![Code: MIT](https://img.shields.io/badge/Code-MIT-green)](LICENSE)
 [![Paper and data: CC BY 4.0](https://img.shields.io/badge/Paper%20%26%20data-CC%20BY%204.0-blue)](LICENSE-DATA)
 
-This repository accompanies the revised paper released on August 15, 2026 and archived at [doi:10.5281/zenodo.21910466](https://doi.org/10.5281/zenodo.21910466). The revision does not introduce a new model or software version: the experimental code and generated candidate corpus are unchanged, and no new generative runs were conducted.
+This repository accompanies the paper as revised on November 15, 2026. All versions are archived under [doi:10.5281/zenodo.18904509](https://doi.org/10.5281/zenodo.18904509), which resolves to the latest; the revision of August 15, 2026 is [doi:10.5281/zenodo.21910466](https://doi.org/10.5281/zenodo.21910466). The November revision changes the paper's text only: the experimental code and generated candidate corpus are unchanged, and no new generative runs were conducted.
 
 This repository contains two complementary search operators for open-ended problems. Previously released **world-diversity search** changes the premises before solution generation: target-independent Builders construct textual worlds with altered causal rules, purpose-blind Solvers address the same target under each rule set, and compilers translate the resulting mechanisms into a common target-domain schema. “Purpose-blind” means that the Solver knows the target problem but not why its world was constructed or that its answer will later be transferred.
 

@@ -1,17 +1,5 @@
 \begin{thebibliography}{10}
 
-\bibitem{doshi2024}
-Anil~R. Doshi and Oliver~P. Hauser.
-\newblock Generative {AI} enhances individual creativity but reduces the
-  collective diversity of novel content.
-\newblock {\em Science Advances}, 10(28):eadn5290, 2024.
-
-\bibitem{haase2025}
-Jennifer Haase, Paul H.~P. Hanel, and Sebastian Pokutta.
-\newblock Has the creativity of large-language models peaked? {An} analysis of
-  inter- and intra-{LLM} variability.
-\newblock {\em Journal of Creativity}, 35(3):100113, 2025.
-
 \bibitem{zhang2025noveltybench}
 Yiming Zhang, Harshita Diddee, Susan Holm, Hanchen Liu, Xinyue Liu, Vinay
   Samuel, Barry Wang, and Daphne Ippolito.
@@ -24,16 +12,40 @@ Dustin Wright, Sarah Masud, Jared Moore, Srishti Yadav, Maria Antoniak,
 \newblock Epistemic diversity and knowledge collapse in large language models.
 \newblock {\em arXiv preprint arXiv:2510.04226}, 2025.
 
-\bibitem{runco2012standard}
-Mark~A. Runco and Garrett~J. Jaeger.
-\newblock The standard definition of creativity.
-\newblock {\em Creativity Research Journal}, 24(1):92--96, 2012.
+\bibitem{doshi2024}
+Anil~R. Doshi and Oliver~P. Hauser.
+\newblock Generative {AI} enhances individual creativity but reduces the
+  collective diversity of novel content.
+\newblock {\em Science Advances}, 10(28):eadn5290, 2024.
+
+\bibitem{haase2025}
+Jennifer Haase, Paul H.~P. Hanel, and Sebastian Pokutta.
+\newblock Has the creativity of large-language models peaked? {An} analysis of
+  inter- and intra-{LLM} variability.
+\newblock {\em Journal of Creativity}, 35(3):100113, 2025.
 
 \bibitem{westerberg2025strangeworlds}
 Henrik Westerberg.
 \newblock Algorithmic creativity via strange worlds: A multi-agent toolkit for
   escaping the median trap.
 \newblock Zenodo, 2025.
+\newblock Edition of 8 December 2025:
+  \url{https://doi.org/10.5281/zenodo.17905401}.
+
+\bibitem{peeperkorn2024temperature}
+Max Peeperkorn, Tom Kouwenhoven, Dan Brown, and Anna Jordanous.
+\newblock Is temperature the creativity parameter of large language models?
+\newblock {\em arXiv preprint arXiv:2405.00492}, 2024.
+
+\bibitem{wenger2026homogeneous}
+E.~Wenger and Y.~N. Kenett.
+\newblock Large language models are homogeneously creative.
+\newblock {\em PNAS Nexus}, 5(3):pgag042, 2026.
+
+\bibitem{runco2012standard}
+Mark~A. Runco and Garrett~J. Jaeger.
+\newblock The standard definition of creativity.
+\newblock {\em Creativity Research Journal}, 24(1):92--96, 2012.
 
 \bibitem{einstein1949autobiographical}
 Albert Einstein.
@@ -47,7 +59,8 @@ Henrik Westerberg.
 \newblock Fractal intelligence: Conceptual decomposition as problem-solving
   infrastructure.
 \newblock Zenodo, 2026.
-\newblock Version 1; post-publication interpretive framework.
+\newblock All versions: \url{https://doi.org/10.5281/zenodo.19462645}.
+  Post-publication interpretive framework.
 
 \bibitem{debono1970}
 Edward de~Bono.
@@ -81,9 +94,9 @@ Nils Reimers and Iryna Gurevych.
 \bibitem{arnold1953arcturus}
 John~E. Arnold.
 \newblock Case study: Arcturus iv.
-\newblock MIT Creative Engineering Laboratory case study; Stanford Digital
-  Repository, 1953.
-\newblock Original case study with later editorial commentary.
+\newblock MIT Creative Engineering Laboratory case study, 1953.
+\newblock Annotated edition with later editorial commentary:
+  \url{https://archive.org/details/ArcturusIvCaseStudy}.
 
 \bibitem{eno1975}
 Brian Eno and Peter Schmidt.
@@ -130,7 +143,7 @@ Yuto Suzuki and Farnoush Banaei-Kashani.
 \newblock Universe of thoughts: Enabling creative reasoning with large language
   models.
 \newblock {\em arXiv preprint arXiv:2511.20471}, 2025.
-\newblock Version 1 submitted 25 November 2025.
+\newblock Version 1 submitted 25 November 2025; version 3, 6 October 2026.
 
 \bibitem{ruan2025g2}
 Zhiwen Ruan, Yixia Li, Yefeng Liu, Yun Chen, Weihua Luo, Peng Li, Yang Liu, and
@@ -153,7 +166,8 @@ Rui Wang, Joel Lehman, Aditya Rawal, Jiale Zhi, Yulun Li, Jeffrey Clune, and
 {MiroFish contributors}.
 \newblock {MiroFish}: Multi-agent social simulation repository.
 \newblock GitHub repository, 2025.
-\newblock Repository initiated in 2025; version inspected 10 August 2026.
+\newblock Repository created 26 November 2025; version inspected 10 August
+  2026.
 
 \bibitem{lehman2011novelty}
 Joel Lehman and Kenneth~O. Stanley.
@@ -187,6 +201,16 @@ Runlin Duan, Nachiketh Karthik, Jingyu Shi, Rahul Jain, Maria~C. Yang, and
   early-stage ideation using large language model.
 \newblock In {\em Volume 3B: 50th Design Automation Conference}, page
   V03BT03A042. American Society of Mechanical Engineers, 2024.
+
+\bibitem{duan2026conceptvis}
+Runlin Duan, Nachiketh Karthik, Yuzhao Chen, Jingyu Shi, Rahul Jain, Maria
+  Yang, and Karthik Ramani.
+\newblock {ConceptVis}: Exploring and visualizing design concepts with large
+  language models using interactive knowledge graph.
+\newblock {\em Journal of Computing and Information Science in Engineering},
+  26(1):011002, 2026.
+\newblock Published online 27 November 2025. Open copy:
+  \url{https://hdl.handle.net/1721.1/169231}.
 
 \bibitem{siangliulue2016ideahound}
 Pao Siangliulue, Joel Chan, Steven~P. Dow, and Krzysztof~Z. Gajos.
@@ -237,6 +261,32 @@ Maciej Besta, Nils Blach, Ales Kubicek, Robert Gerstenberger, Michal
   models.
 \newblock In {\em Proceedings of the AAAI Conference on Artificial
   Intelligence}, volume~38, pages 17682--17690, 2024.
+
+\bibitem{westerbergMeaning2026}
+Henrik Westerberg.
+\newblock The {Meaning Model}: Constructing worlds and stories at progressive
+  resolution.
+\newblock Zenodo, 2026.
+\newblock All versions: \url{https://doi.org/10.5281/zenodo.22313515}.
+
+\bibitem{westerbergLife2026}
+Henrik Westerberg.
+\newblock {Life Simulation}: Learning from worlds and their construction.
+\newblock Zenodo, 2026.
+\newblock All versions: \url{https://doi.org/10.5281/zenodo.22313592}.
+
+\bibitem{westerbergSema2026}
+Henrik Westerberg.
+\newblock {Sema}: When the hash is the word.
+\newblock Zenodo, 2026.
+\newblock All versions: \url{https://doi.org/10.5281/zenodo.19462702}.
+
+\bibitem{westerbergUnderstanding2026}
+Henrik Westerberg.
+\newblock {Understanding Graph}: A persistent medium for recursive
+  understanding.
+\newblock Zenodo, 2026.
+\newblock All versions: \url{https://doi.org/10.5281/zenodo.19462658}.
 
 \bibitem{cox2005metacognition}
 Michael~T. Cox.
